@@ -18,4 +18,5 @@ module.exports = {
     devServer: {
         static: './src',
     },
+    devtool: 'inline-source-map',
 };
