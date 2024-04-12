@@ -36,20 +36,37 @@ export default class Gameboard {
         // VERT = TRUE/FALSE
 
         if (ship.vert && coordY + ship.length < 11) {
+            let conflict = true;
             for (let i=coordY; i<coordY + ship.length; i++) {
-                this.board[i][coordX] = 1;
+                if (this.board[i][coordX] == 1) {
+                    return this.board;
+                }
+                else {conflict = false}
+            }
+            if (!conflict) {
+                for (let i=coordY; i<coordY + ship.length; i++) {
+                    this.board[i][coordX] = 1;
+                }
             }
         }
 
         if (!ship.vert && coordX + ship.length < 11) {
-            for (let i=coordX; i<coordX + ship.length; i++)
-                this.board[coordY][i] = 1;
+            let conflict = true;
+            for (let i=coordX; i<coordX + ship.length; i++) {
+                if (this.board[coordY][i] == 1) {
+                    return this.board;
+                }
+                else {conflict = false}
+            }
+            if (!conflict) {
+                for (let i=coordX; i<coordX + ship.length; i++) {
+                    this.board[coordY][i] = 1;
+                }
+            }
         }
 
         
         // CHECK NO OTHER SHIPS IN THOSE SPOTS
-        
-        // if all spots = 0, change to 1
         
         return this.board;
 

@@ -93,3 +93,20 @@ test('testBoard.placeShip(ship5Vert, 5, 5) returns 1s vertically starting at boa
         [0,0,0,0,0,1,0,0,0,0]
     ])
 });
+
+// RETURN ORIGINAL BOARD IF CONFLICTS
+
+test('gameBoard.placeShip(ship5Vert, 9, 3) conflict w placed ships returns original board', () => {
+    expect(gameBoard.placeShip(ship5Vert, 9, 3)).toStrictEqual([
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,1,1,1,1,1],
+        [0,0,0,0,0,1,0,0,0,0],
+        [0,0,0,0,0,1,0,0,0,0],
+        [0,0,0,0,0,1,0,0,0,0],
+        [0,0,0,0,0,1,0,0,0,0],
+        [0,0,0,0,0,1,0,0,0,0]
+    ])
+});
