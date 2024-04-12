@@ -1,9 +1,9 @@
 import Ship from "./Ship";
 
 // 0 = NOTHING
-// 1 = SHIP
-// 2 = HIT
-// 3 = MISS
+// 1 = SHIP             <<< add 1 every time
+// 2 = MISS             <<< add 2 every time
+// 3 = HIT
 
 let ship5 = new Ship(5);
 let ship4 = new Ship(4);
@@ -35,21 +35,23 @@ export default class Gameboard {
         
         // VERT = TRUE/FALSE
 
-        
-
-        if (!ship.vert && coordX + ship.length < 10) {
-            for (let i=coordX; i < coordX + ship.length; i++)
-            this.board[coordY][i] = 1;
+        if (ship.vert && coordY + ship.length < 11) {
+            for (let i=coordY; i<coordY + ship.length; i++) {
+                this.board[i][coordX] = 1;
+            }
         }
 
-        return this.board;
+        if (!ship.vert && coordX + ship.length < 11) {
+            for (let i=coordX; i<coordX + ship.length; i++)
+                this.board[coordY][i] = 1;
+        }
 
+        
         // CHECK NO OTHER SHIPS IN THOSE SPOTS
-
+        
         // if all spots = 0, change to 1
-
-        // return this...........
-
+        
+        return this.board;
 
 
 
