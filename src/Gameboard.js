@@ -8,13 +8,14 @@ import Ship from "./Ship";
 let ship5 = new Ship(5);
 let ship4 = new Ship(4);
 let ship3 = new Ship(3);
-let ship33 = new Ship(3);
-let ship2 = new Ship(2);
+let ship2 = new Ship(3);
+let ship1 = new Ship(2);
 
 
 export default class Gameboard {
     constructor() {
         this.board = this.createBoard();
+
     }
     
     createBoard() {
@@ -31,46 +32,61 @@ export default class Gameboard {
 
     // PLACE SHIP AT SPECIFIC COORDINATES BY CALLING SHIP.JS
 
-    placeShip(ship, coordX, coordY) {
+    // board[ROW][COLUMN]
+    // board[Y][X]
+
+    placeShip(ship, row, column) {
         
         // VERT = TRUE/FALSE
+        // IF PLACEMENT OUT OF BOUNDS, RETURNS ORIGINAL BOARD
+        // CHECKS FOR COLLISIONS, RETURNS ORIGINAL BOARD IF EXIST
 
-        if (ship.vert && coordY + ship.length < 11) {
+        if (ship.vert && row + ship.length < 11) {
             let conflict = true;
-            for (let i=coordY; i<coordY + ship.length; i++) {
-                if (this.board[i][coordX] == 1) {
+            for (let i=row; i<row + ship.length; i++) {
+                if (this.board[i][column] == 1) {
                     return this.board;
                 }
                 else {conflict = false}
             }
             if (!conflict) {
-                for (let i=coordY; i<coordY + ship.length; i++) {
-                    this.board[i][coordX] = 1;
+                for (let i=row; i<row + ship.length; i++) {
+                    this.board[i][column] = 1;
+                    //ship.placement.push()
                 }
             }
         }
 
-        if (!ship.vert && coordX + ship.length < 11) {
+        if (!ship.vert && column + ship.length < 11) {
             let conflict = true;
-            for (let i=coordX; i<coordX + ship.length; i++) {
-                if (this.board[coordY][i] == 1) {
+            for (let i=column; i<column + ship.length; i++) {
+                if (this.board[row][i] == 1) {
                     return this.board;
                 }
                 else {conflict = false}
             }
             if (!conflict) {
-                for (let i=coordX; i<coordX + ship.length; i++) {
-                    this.board[coordY][i] = 1;
+                for (let i=column; i<column + ship.length; i++) {
+                    this.board[row][i] = 1;
                 }
             }
         }
-
-        
-        // CHECK NO OTHER SHIPS IN THOSE SPOTS
         
         return this.board;
 
+    };
 
+    receiveAttack(row, column) {
+
+        if (this.board[row][column] == 0) {
+            this.board[row][column] = 2;
+        }
+        else if (this.board[row][column] == 1) {
+            this.board[row][column] = 3;
+
+        }
+
+        return this.board;
 
     }
 

@@ -15,4 +15,6 @@ playerBoard.placeShip(ship5, 4, 4);
 
 console.log(playerBoard.board)
 
+playerBoard.receiveAttack(4, 5)
+
 

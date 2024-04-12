@@ -4,6 +4,7 @@ export default class Ship {
         this.hits = 0;
         this.vert = false;
         this.sunk = false;
+        this.placement = [];
     }
 
     hit() {
