@@ -2,10 +2,17 @@ import './style.css';
 import Ship from './Ship';
 import Gameboard from './Gameboard';
 
-let newGame = new Gameboard;
+let ship5 = new Ship(5);
 
-let playerBoard = newGame.createBoard();
-let computerBoard = newGame.createBoard();
+let playerBoard = new Gameboard;
+let computerBoard = new Gameboard;
 
-console.log(playerBoard);
-console.log(computerBoard);
+
+console.log(playerBoard.board);
+console.log(computerBoard.board);
+
+playerBoard.placeShip(ship5, 4, 4);
+
+console.log(playerBoard.board)
+
+
