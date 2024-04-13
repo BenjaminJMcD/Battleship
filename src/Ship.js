@@ -3,8 +3,8 @@ export default class Ship {
         this.length = length;
         this.hits = 0;
         this.vert = false;
-        this.sunk = false;
         this.placement = [];
+        this.sunk = false;
     }
 
     hit() {

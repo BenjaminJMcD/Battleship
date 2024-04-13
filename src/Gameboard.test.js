@@ -4,8 +4,6 @@ import Ship from "./Ship";
 let gameBoard = new Gameboard;
 let testBoard = gameBoard.board;
 
-let ship5 = new Ship(5);
-
 
 test('gameBoard is created as matrix of 0s', () => {
     expect(testBoard).toStrictEqual(
@@ -32,7 +30,7 @@ test('gameBoard is created and gives coords', () => {
 // PLACES SHIP VERTICALLY
 
 test('gameBoard.placeShip(ship5, 4, 6) out-of-bounds returns original board', () => {
-    expect(gameBoard.placeShip(ship5, 4, 6)).toStrictEqual([
+    expect(gameBoard.placeShip(gameBoard.ships.ship5, 4, 6)).toStrictEqual([
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -47,7 +45,7 @@ test('gameBoard.placeShip(ship5, 4, 6) out-of-bounds returns original board', ()
 });
 
 test('testBoard.placeShip(ship5, 4, 5) returns 1s horizontally starting at board[4][5]]', () => {
-    expect(gameBoard.placeShip(ship5, 4, 5)).toStrictEqual([
+    expect(gameBoard.placeShip(gameBoard.ships.ship5, 4, 5)).toStrictEqual([
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -62,11 +60,10 @@ test('testBoard.placeShip(ship5, 4, 5) returns 1s horizontally starting at board
 });
 
 // TEST VERTICAL
-let ship5Vert = new Ship(5);
-ship5Vert.vert = true;
+gameBoard.ships.ship4.vert = true;
 
-test('gameBoard.placeShip(ship5Vert, 6, 5) out-of-bounds returns original board', () => {
-    expect(gameBoard.placeShip(ship5Vert, 6, 5)).toStrictEqual([
+test('gameBoard.placeShip(ship5Vert, 7, 5) out-of-bounds returns original board', () => {
+    expect(gameBoard.placeShip(gameBoard.ships.ship4, 7, 5)).toStrictEqual([
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -81,7 +78,7 @@ test('gameBoard.placeShip(ship5Vert, 6, 5) out-of-bounds returns original board'
 });
 
 test('testBoard.placeShip(ship5Vert, 5, 5) returns 1s vertically starting at board[5][5]]', () => {
-    expect(gameBoard.placeShip(ship5Vert, 5, 5)).toStrictEqual([
+    expect(gameBoard.placeShip(gameBoard.ships.ship4, 5, 5)).toStrictEqual([
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -91,14 +88,14 @@ test('testBoard.placeShip(ship5Vert, 5, 5) returns 1s vertically starting at boa
         [0,0,0,0,0,1,0,0,0,0],
         [0,0,0,0,0,1,0,0,0,0],
         [0,0,0,0,0,1,0,0,0,0],
-        [0,0,0,0,0,1,0,0,0,0]
+        [0,0,0,0,0,0,0,0,0,0]
     ])
 });
 
 // RETURN ORIGINAL BOARD IF CONFLICTS
 
 test('gameBoard.placeShip(ship5Vert, 3, 8) conflict w placed ships returns original board', () => {
-    expect(gameBoard.placeShip(ship5Vert, 3, 8)).toStrictEqual([
+    expect(gameBoard.placeShip(gameBoard.ships.ship4, 3, 8)).toStrictEqual([
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -108,7 +105,7 @@ test('gameBoard.placeShip(ship5Vert, 3, 8) conflict w placed ships returns origi
         [0,0,0,0,0,1,0,0,0,0],
         [0,0,0,0,0,1,0,0,0,0],
         [0,0,0,0,0,1,0,0,0,0],
-        [0,0,0,0,0,1,0,0,0,0]
+        [0,0,0,0,0,0,0,0,0,0]
     ])
 });
 
@@ -123,7 +120,7 @@ test('gameBoard.receiveAttack(1,2) changes board coordinate to 2 for MISS', () =
         [0,0,0,0,0,1,0,0,0,0],
         [0,0,0,0,0,1,0,0,0,0],
         [0,0,0,0,0,1,0,0,0,0],
-        [0,0,0,0,0,1,0,0,0,0]
+        [0,0,0,0,0,0,0,0,0,0]
     ])
 });
 
@@ -138,8 +135,13 @@ test('gameBoard.receiveAttack(4,6) changes board coordinate to 3 for HIT', () =>
         [0,0,0,0,0,1,0,0,0,0],
         [0,0,0,0,0,1,0,0,0,0],
         [0,0,0,0,0,1,0,0,0,0],
-        [0,0,0,0,0,1,0,0,0,0]
+        [0,0,0,0,0,0,0,0,0,0]
     ])
+});
+
+test('gameBoard.receiveAttack(4,7) adds HIT count to correct ship', () => {
+    gameBoard.receiveAttack(4,7);
+    expect(gameBoard.ships.ship5.hits).toBe(2)
 });
 
 
