@@ -73,9 +73,7 @@ export default class Gameboard {
                 }
             }
         }
-        
         return this.board;
-
     };
 
     receiveAttack(row, column) {
@@ -103,11 +101,30 @@ export default class Gameboard {
             }
         }
         return this.board;
-
     }
 
     // REPORT IF ALL SHIPS ARE SUNK
 
+    reportSunk() {
+
+        let gameOver = false;
+        let sunkArray = [];
+
+        let ships = this.ships;
+
+        for (const ship in ships) {
+            // RUN ISSUNK() ON ALL SHIPS
+            ships[ship].isSunk();
+            // PUSH SUNKEN SHIPS TO ARRAY
+            if (ships[ship].sunk) {
+                sunkArray.push(ships[ship]);
+            }
+        }
+        if (sunkArray.length == 5) {
+            gameOver = true;
+        }
+        return gameOver
+    }
 
 
 

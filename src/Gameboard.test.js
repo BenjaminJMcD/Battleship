@@ -144,4 +144,58 @@ test('gameBoard.receiveAttack(4,7) adds HIT count to correct ship', () => {
     expect(gameBoard.ships.ship5.hits).toBe(2)
 });
 
+test('gameBoard.ship5 has correct # hits', () => {
+    gameBoard.receiveAttack(4,5);
+    gameBoard.receiveAttack(4,8);
+    gameBoard.receiveAttack(4,9);
+    expect(gameBoard.ships.ship5.hits).toBe(5);
+});
 
+test('testBoard = what is expected', () => {
+    expect(testBoard).toStrictEqual([
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,2,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,3,3,3,3,3],
+        [0,0,0,0,0,1,0,0,0,0],
+        [0,0,0,0,0,1,0,0,0,0],
+        [0,0,0,0,0,1,0,0,0,0],
+        [0,0,0,0,0,1,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0]
+    ])
+});
+
+test('gameBoard.ship5.sunk is TRUE after running reportSunk()', () => {
+    gameBoard.reportSunk();
+    expect(gameBoard.ships.ship5.sunk).toBe(true);
+})
+
+test('gameover', () => {
+    expect(gameBoard.reportSunk()).toBe(false);
+});
+
+test('real gameover', () => {
+    gameBoard.receiveAttack(5,5);
+    gameBoard.receiveAttack(6,5);
+    gameBoard.receiveAttack(7,5);
+    gameBoard.receiveAttack(8,5);
+
+    gameBoard.placeShip(gameBoard.ships.ship3, 0, 0);
+    gameBoard.receiveAttack(0,0);
+    gameBoard.receiveAttack(0,1);
+    gameBoard.receiveAttack(0,2);
+
+    gameBoard.placeShip(gameBoard.ships.ship2, 2,0);
+    gameBoard.receiveAttack(2,0);
+    gameBoard.receiveAttack(2,1);
+    gameBoard.receiveAttack(2,2);
+
+    gameBoard.placeShip(gameBoard.ships.ship1, 3,0);
+    gameBoard.receiveAttack(3,0);
+    gameBoard.receiveAttack(3,1);
+
+    gameBoard.reportSunk();
+
+    expect(gameBoard.reportSunk()).toBe(true);
+})
