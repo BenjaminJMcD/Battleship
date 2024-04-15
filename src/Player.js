@@ -30,17 +30,13 @@ export default class Player {
         }
     }
 
-
-
     playerMove(row, column, computerBoard) {
 
-        // Player.player1.playerMove(coords)
-        // receiveAttack(coords) returns BOARD.....
-        // loop through computerBoard
-        // if coord is not 2, end turn
-        // if coord is now 3, 
+        computerBoard.receiveAttack(row, column);
 
-        //Player.playerTurn = false;  ?????
+        if (computerBoard.board[row][column] == 2) {
+            this.playerTurn = false;
+        }
     }
 
     computerMove(playerBoard) {
@@ -53,6 +49,7 @@ export default class Player {
             // MISS
             if (playerBoard.board[rowRandom][columnRandom] == 0) {
                 this.rememberMoves.push([rowRandom, columnRandom]);
+                this.playerTurn = true;
                 return playerBoard.receiveAttack(rowRandom, columnRandom);
             }
             // HIT
