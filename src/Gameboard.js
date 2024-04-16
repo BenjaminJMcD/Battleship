@@ -128,5 +128,21 @@ export default class Gameboard {
 
 
 
+    //
+    //
+    //
+    // POSSIBLE CLICK HANDLER FOR GAME TO GET ROW/COLUMN
+
+    clickHandler = (e) => {
+        const clicked = e.target
+        const row = clicked.getAttribute("row");
+        const column = clicked.getAttribute("column");
+
+        return {
+            row,
+            column
+        }
+    }
+
 
 }
