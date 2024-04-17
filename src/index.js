@@ -34,17 +34,13 @@ compBoard.placeShip(ship5, ship5Coords.row, ship5Coords.column);
 
 console.log(compBoard)
 
-
-function randomNumber10 () {
-    return Math.floor(Math.random()*10);
+function randomNumber(highValue) {
+    return Math.floor(Math.random() * highValue);
 }
 
-function randomNumber2 () {
-    return Math.floor(Math.random()*2)
-}
 
 function alternateVert (ship) {
-    let rng = randomNumber2();
+    let rng = randomNumber(2);
 
     if (rng == 0) {
         ship.vert = false
@@ -57,23 +53,21 @@ function alternateVert (ship) {
 
 function secureSpot(ship) {
 
-    let row = randomNumber10();
-    let column = randomNumber10();
-
     if (ship.vert) {
-        if (ship.length + row > 10) {
-            return secureSpot(ship);
+        let row = randomNumber(ship.length + 1);
+        let column = randomNumber(10);
+        return {
+            row,
+            column
         }
     }
-    if (!ship.vert) {
-        if (ship.length + column > 10) {
-            return secureSpot(ship);
+    else if (!ship.vert) {
+        let row = randomNumber(10);
+        let column = randomNumber(ship.length + 1)
+        return {
+            row,
+            column
         }
-    }
-
-    return {
-        row,
-        column
     }
 }
 
