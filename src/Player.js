@@ -2,7 +2,7 @@ import Gameboard from "./Gameboard";
 
 export default class Player {
     constructor() {
-        this.rememberMoves = [];
+        this.remainingMoves = this.allMoves();
         this.playerTurn = true;
     }
 
@@ -23,6 +23,16 @@ export default class Player {
 
     // 
 
+    allMoves() {
+        let moves = [];
+        for (let i=0; i<10; i++) {
+            for (let j=0; j<10; j++) {
+                moves.push([i, j]);
+            }
+        }
+        return moves;
+    }
+
 
     eventHandler(row, column, board) {
         if (this.playerTurn) {
@@ -39,32 +49,36 @@ export default class Player {
         }
     }
 
+    randomIndex(highValue) {
+        return Math.floor(Math.random() * highValue)
+    }
+
     computerMove(playerBoard) {
 
-        let rowRandom = Math.floor(Math.random() * 10);
-        let columnRandom = Math.floor(Math.random() * 10);
+        // GET RANDOM INDEX OF REMAINING MOVES
+        let index = this.randomIndex(this.remainingMoves.length);
+        // GET COORDS AT INDEX
+        let move = this.remainingMoves[index];
+        // REMOVE COORDS FROM REMAINING MOVES
+        this.remainingMoves.splice(index, 1);
 
-        // DONT REPEAT MOVES
-        if (!this.rememberMoves.includes([rowRandom, columnRandom])) {
-            // MISS
-            if (playerBoard.board[rowRandom][columnRandom] == 0) {
-                this.rememberMoves.push([rowRandom, columnRandom]);
-                this.playerTurn = true;
-                return playerBoard.receiveAttack(rowRandom, columnRandom);
-            }
-            // HIT
-            else if (playerBoard.board[rowRandom][columnRandom] == 1) {
-                this.rememberMoves.push([rowRandom, columnRandom]);
-                playerBoard.receiveAttack(rowRandom, columnRandom);
-                // MOVE AGAIN
-                this.computerMove(playerBoard);
-            }
+        let row = move[0];
+        let column = move[1];
+        
+        // MISS
+        if (playerBoard.board[row][column] == 0) {
+            return playerBoard.receiveAttack(row, column);
         }
-        // REPEATED MOVE -- TRY AGAIN W NEW COORD
-        else {
+        // HIT
+        else if (playerBoard.board[row][column] == 1) {
+            playerBoard.receiveAttack(row, column);
+            // MOVE AGAIN
+            if (this.remainingMoves.length) {
             this.computerMove(playerBoard);
+            }
         }
-    }
+
+}
 
 
     adjacentMove(row, column, playerBoard) {
