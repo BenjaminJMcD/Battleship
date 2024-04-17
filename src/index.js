@@ -14,11 +14,11 @@ let ship3 = compBoard.ships.ship3;
 let ship4 = compBoard.ships.ship4;
 let ship5 = compBoard.ships.ship5;
 
-alternateVert(ship1);
-alternateVert(ship2);
-alternateVert(ship3);
-alternateVert(ship4);
-alternateVert(ship5);
+let compShips = compBoard.ships;
+
+for (const ship in compShips) {
+    alternateVert(compShips[ship])
+}
 
 let ship1Coords = secureSpot(ship1);
 let ship2Coords = secureSpot(ship2);
@@ -32,7 +32,7 @@ compBoard.placeShip(ship3, ship3Coords.row, ship3Coords.column);
 compBoard.placeShip(ship4, ship4Coords.row, ship4Coords.column);
 compBoard.placeShip(ship5, ship5Coords.row, ship5Coords.column);
 
-console.log(compBoard)
+
 
 function randomNumber(highValue) {
     return Math.floor(Math.random() * highValue);
