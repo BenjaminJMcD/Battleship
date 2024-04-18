@@ -49,6 +49,16 @@ export default class Player {
         }
     }
 
+    searchRemainingMoves(parentArray, childArray) {
+        for (let i=0; i<parentArray.length; i++) {
+            if (parentArray[i].every(function(value, index) {
+                return value === childArray[index]})) {
+                    return true;
+                }
+        }
+        return false;
+    }
+
     randomIndex(highValue) {
         return Math.floor(Math.random() * highValue)
     }
@@ -72,88 +82,73 @@ export default class Player {
         // HIT
         else if (playerBoard.board[row][column] == 1) {
             playerBoard.receiveAttack(row, column);
-            // MOVE AGAIN
-            if (this.remainingMoves.length) {
-            this.computerMove(playerBoard);
-            }
+            // MOVE AGAIN W SMART MOVE
+            return this.adjacentMove(row, column, playerBoard);
         }
-
 }
-
 
     adjacentMove(row, column, playerBoard) {
         
         // CREATE LIST OF POSSIBLE SMART MOVES
         let possibleMoves = [];
 
-        let up = row+1;
-        let down = row-1;
+        let up = row-1;
+        let down = row+1;
         let left = column-1;
         let right = column+1;
 
-        if (up<10 && !this.rememberMoves.includes([up, column])) {
+        if (up>=0 && this.searchRemainingMoves(this.remainingMoves, [up, column])) {
             possibleMoves.push([up, column])
         };
-        if (down>=0 && !this.rememberMoves.includes([down, column])) {
+        if (down<10 && this.searchRemainingMoves(this.remainingMoves, [down, column])) {
             possibleMoves.push([down, column])
         };
-        if (left>=0 && !this.rememberMoves.includes([row, left])) {
+        if (left>=0 && this.searchRemainingMoves(this.remainingMoves, [row, left])) {
             possibleMoves.push([row, left])
         };
-        if (right<10 && !this.rememberMoves.includes([row, right])) {
-            possibleMoves.push([row, right]);
+        if (right<10 && this.searchRemainingMoves(this.remainingMoves, [row, right])) {
+            possibleMoves.push([row, right])
         }
 
-        // IF NO SMART MOVES, CREATE RANDOM MOVE
-        if (possibleMoves.length = 0) {
-            setTimeout(() => {
-                this.computerMove(playerBoard);
-            }, 1000);
+        console.log(possibleMoves)
+
+        // IF NO SMART MOVES, GO BACK TO RANDOM MOVE
+        if (possibleMoves.length == 0) {
+            return this.computerMove(playerBoard);
         }
 
-        let randomChoice = Math.floor(Math.random()*possibleMoves.length);
+        // PICK MOVE RANDOMLY FROM POSSIBLE MOVES
+        let randomIndex = this.randomIndex(possibleMoves.length);
+        let move = possibleMoves[randomIndex];
 
-        if (possibleMoves.length = 4) {
-            let move = possibleMoves[randomChoice];
-            playerBoard.receiveAttack(move[0], move[1]);
+        // SAVE MOVES AS NEWROW AND NEWCOLUMN
+        let newRow = move[0];
+        let newColumn = move[1];
 
-            if (playerBoard.board[move[0]][move[1]] == 3) {
-                // START LOOP FOR ONE DIRECTION
-            }
-            else {
-                // END TURN
-            }
+        // REMOVE NEW MOVE FROM REMAINING MOVES
+        let remainingMovesIndex = this.remainingMoves.indexOf([newRow, newColumn]);
+        this.remainingMoves.splice(remainingMovesIndex, 1);
+
+        // MISS -- DOCUMENT ATTACK AND END
+        if (playerBoard.board[newRow][newColumn] == 0) {
+            return playerBoard.receiveAttack(newRow, newColumn);
         }
-        else if (possibleMoves.length < 4) {
-
+        // HIT -- DOCUMENT ATTACK AND RUN DIRECTED MOVE
+        else if (playerBoard.board[newRow][newColumn] == 1) {
+            playerBoard.receiveAttack(newRow, newColumn);
+            // return this.directedHit(row, column, newRow, newColumn, playerBoard);
+            return this.adjacentMove(newRow, newColumn, playerBoard);
         }
+    }
 
+    directedHit(oldRow, oldColumn, newRow, newColumn, playerBoard) {
 
-        // 4 POSSIBLE MOVES === FIRST HIT
+        // if oldRow = newRow ---- 
+        //      possible = 
+                    // LEFT = [row,oldColumn-1] 
+                    // RIGHT = [row,newColumn+1]
+                // CHECK REMAINING MOVES
 
-        // 3 POSSIBLE MOVES === FIRST OR SECOND HIT
-        // 2 === FIRST OR SECOND HIT
-        // 1 === FIRST OR SECOND HIT
-
-
-        // if 0, END
-
-        // if 1, 2 possible moves
-
-        // if 0, END
-
-        // if 1, 2 possible moves
-
-        // if 0, END
-
-        // if 1, 2 possible moves
-
-
-        // 4 possible
-        // 2 possible if !rememberMoves
-        // 2 possible if !rememberMoves
-        // 2 possible if !rememberMoves
-        // 2 possible if !rememberMoves
 
 
     }

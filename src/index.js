@@ -9,19 +9,15 @@ import CompBoard from './CompBoard';
 let playerBoard = new Gameboard;
 let computer = new Player;
 
-for (let i=0; i<10; i++) {
-    for (let j=0; j<10; j++) {
-        playerBoard.board[i][j] = 1;
-    }
-}
+playerBoard.placeShip(playerBoard.ships.ship5, 0, 0);
+playerBoard.placeShip(playerBoard.ships.ship4, 1, 0);
+playerBoard.placeShip(playerBoard.ships.ship3, 2, 0);
+playerBoard.placeShip(playerBoard.ships.ship2, 3, 0);
+playerBoard.placeShip(playerBoard.ships.ship1, 4, 0);
 
 computer.computerMove(playerBoard);
 
-console.log(playerBoard.board)
-
-
-
-
+console.log(playerBoard.board);
 
 
 
