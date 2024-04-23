@@ -165,39 +165,44 @@ export default class Player {
 
         let possibleMoves = [];
 
+        //
+        // NEW ROW ON TOP, OLD ROW ON BOT
         if (oldRow > newRow) {
 
+
         }
+
+        //
+        // OLD ROW ON TOP, NEW ROW ON BOT
         else if (oldRow < newRow) {
 
         }
+
+        //
+        // NEW COLUMN ON LEFT OLD COLUMN ON RIGHT
         else if (oldColumn > newColumn) {
+            let left = newColumn;
+            let right = oldColumn;
 
-        }
-        else if (oldColumn < newColumn) {
-            let left = oldColumn;
-            let right = newColumn;
-
-            // IF NEW MOVE VALID, ADD TO POSSIBLE MOVES FOR LEFT AND RIGHT +1
-            if (left >= 0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
+            if (left >=0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
                 possibleMoves.push(left-1);
             }
             if (right < 10 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, right+1])) {
                 possibleMoves.push(right+1);
             }
 
-            // IF THERE ARE VALID MOVES
-            if (possibleMoves.length != 0) {
-                // PICK ONE MOVE AND ATTACK
+            if (possibleMoves.length !=0) {
+                // PICK MOVE AT RANDOM
                 let index = randomIndex(possibleMoves.length);
-                playerBoard.receiveAttack(oldRow, possibleMoves[index]);
                 // REMOVE MOVE FROM REMAININGMOVES
                 let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
                 this.remainingMoves.splice(remainingMovesIndex, 1);
 
-                // IF MOVE WAS A HIT
-                if (playerBoard.board[oldRow, possibleMoves[index]] == 3) {
-                    // REPEAT DIRECTEDMOVE WITH NEW BOOKENDS
+                // IF HIT
+                if (playerBoard.board[oldRow][possibleMoves[index]] == 1) {
+                    // RECEIVE ATTACK
+                    playerBoard.receiveAttack(oldRow, possibleMoves[index]);
+                    // RUN DIRECTED MOVE WITH NEW BOOKENDS
                     if (possibleMoves[index] > right) {
                         let newBookendColumn = possibleMoves[index];
                         return this.directedMove(oldRow, left, newRow, newBookendColumn);
@@ -207,8 +212,55 @@ export default class Player {
                         return this.directedMove(oldRow, newBookendColumn, newRow, right);
                     }
                 }
+                // IF MISS
+                else if (playerBoard.board[oldRow][possibleMoves[index]] == 0) {
+                    return playerBoard.receiveAttack(oldRow, possibleMoves[index]);
+                }
+            }
+            else {
+                return this.computerMove(playerBoard);
+            }
+        }
 
+        //
+        // OLD COLUMN ON LEFT NEW COLUMN ON RIGHT
+        else if (oldColumn < newColumn) {
+            let left = oldColumn;
+            let right = newColumn;
 
+            // IF NEW MOVE VALID, ADD TO POSSIBLE MOVES FOR LEFT AND RIGHT +-1
+            if (left >= 0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
+                possibleMoves.push(left-1);
+            }
+            if (right < 10 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, right+1])) {
+                possibleMoves.push(right+1);
+            }
+
+            // IF THERE ARE VALID MOVES
+            if (possibleMoves.length !=0) {
+                // PICK MOVE AT RANDOM AND REMOVE FROM REMAINING MOVES
+                let index = randomIndex(possibleMoves.length);
+                let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
+                this.remainingMoves.splice(remainingMovesIndex, 1);
+
+                // IF HIT
+                if (playerBoard.board[oldRow][possibleMoves[index]] == 1) {
+                    // RECEIVE ATTACK
+                    playerBoard.receiveAttack(oldRow, possibleMoves[index]);
+                    // RUN DIRECTED MOVE WITH NEW BOOKENDS
+                    if (possibleMoves[index] > right) {
+                        let newBookendColumn = possibleMoves[index];
+                        return this.directedMove(oldRow, left, newRow, newBookendColumn);
+                    }
+                    else if (possibleMoves[index < left]) {
+                        let newBookendColumn = possibleMoves[index];
+                        return this.directedMove(oldRow, newBookendColumn, newRow, right);
+                    }
+                }
+                // IF MISS
+                else if (playerBoard.board[oldRow][possibleMoves[index]] == 0) {
+                    return playerBoard.receiveAttack(oldRow, possibleMoves[index]);
+                }
             }
             // IF THERE ARE NO VALID MOVES, RANDOM ATTACK
             else {
