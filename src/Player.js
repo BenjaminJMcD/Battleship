@@ -49,6 +49,7 @@ export default class Player {
         }
     }
 
+    // HELPER FUNCTION TO SEARCH REMAINING MOVES
     searchRemainingMoves(parentArray, childArray) {
         for (let i=0; i<parentArray.length; i++) {
             if (parentArray[i].every(function(value, index) {
@@ -89,7 +90,7 @@ export default class Player {
 
     adjacentMove(row, column, playerBoard) {
         
-        // CREATE LIST OF POSSIBLE SMART MOVES
+        // CREATE LIST OF POSSIBLE SMART ADJACENT MOVES
         let possibleMoves = [];
 
         let up = row-1;
@@ -109,8 +110,6 @@ export default class Player {
         if (right<10 && this.searchRemainingMoves(this.remainingMoves, [row, right])) {
             possibleMoves.push([row, right])
         }
-
-        console.log(possibleMoves)
 
         // IF NO SMART MOVES, GO BACK TO RANDOM MOVE
         if (possibleMoves.length == 0) {
@@ -141,13 +140,90 @@ export default class Player {
         }
     }
 
-    directedHit(oldRow, oldColumn, newRow, newColumn, playerBoard) {
+    directedMove(oldRow, oldColumn, newRow, newColumn, playerBoard) {
 
-        // if oldRow = newRow ---- 
-        //      possible = 
-                    // LEFT = [row,oldColumn-1] 
-                    // RIGHT = [row,newColumn+1]
-                // CHECK REMAINING MOVES
+        // ISSUE !!!!   NEED TO FIGURE OUT WHAT'S GOING ON BEFORE CHECKING VALID MOVES OR ELSE THIS ONLY WORKS FOR NEXT MOVE
+
+        // IF FIRST MOVE 3,3 THEN ADJACENT MOVE 3,4 THEN DIRECTED MOVE 3,2 AND HIT, DIFFERENT FROM IF MOVES 3,3 3,4 3,5 BC ONLY LOOKING AT LAST TWO MOVES
+
+        //    0 1 2 3 4 5 6 7 8 9
+        // 0 [0,0,0,0,0,0,0,0,0,0],
+        // 1 [0,0,0,0,0,0,0,0,0,0],
+        // 2 [0,0,0,0,0,0,0,0,0,0],
+        // 3 [1,1,3,3,1,0,0,0,0,0],
+        // 4 [0,0,0,0,0,0,0,0,0,0],
+        // 5 [0,0,0,0,0,0,0,1,0,0],
+        // 6 [0,0,0,0,0,0,0,1,0,0],
+        // 7 [0,0,0,0,0,0,0,3,0,0],
+        // 8 [0,0,0,0,0,0,0,3,0,0],
+        // 9 [0,0,0,0,0,0,0,1,0,0]
+
+
+        // if oldRow > newRow
+        // if oldRow == newRow              figure out and 
+        // if oldRow < newRow               keep track of top n bottom
+
+        let possibleMoves = [];
+
+        if (oldRow > newRow) {
+
+        }
+        else if (oldRow < newRow) {
+
+        }
+        else if (oldColumn > newColumn) {
+
+        }
+        else if (oldColumn < newColumn) {
+            let left = oldColumn;
+            let right = newColumn;
+
+            // IF NEW MOVE VALID, ADD TO POSSIBLE MOVES FOR LEFT AND RIGHT +1
+            if (left >= 0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
+                possibleMoves.push(left-1);
+            }
+            if (right < 10 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, right+1])) {
+                possibleMoves.push(right+1);
+            }
+
+            // IF THERE ARE VALID MOVES
+            if (possibleMoves.length != 0) {
+                // PICK ONE MOVE AND ATTACK
+                let index = randomIndex(possibleMoves.length);
+                playerBoard.receiveAttack(oldRow, possibleMoves[index]);
+                // REMOVE MOVE FROM REMAININGMOVES
+                let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
+                this.remainingMoves.splice(remainingMovesIndex, 1);
+
+                // IF MOVE WAS A HIT
+                if (playerBoard.board[oldRow, possibleMoves[index]] == 3) {
+                    // REPEAT DIRECTEDMOVE WITH NEW BOOKENDS
+                    if (possibleMoves[index] > right) {
+                        let newBookendColumn = possibleMoves[index];
+                        return this.directedMove(oldRow, left, newRow, newBookendColumn);
+                    }
+                    else if (possibleMoves[index < left]) {
+                        let newBookendColumn = possibleMoves[index];
+                        return this.directedMove(oldRow, newBookendColumn, newRow, right);
+                    }
+                }
+
+
+            }
+            // IF THERE ARE NO VALID MOVES, RANDOM ATTACK
+            else {
+                return this.computerMove(playerBoard);
+            }
+
+        }
+
+        // FIND TOP/BOTTOM OR LEFT/RIGHT
+
+
+        // CREATE LIST OF POSSIBLE SMART DIRECTED MOVES
+
+
+
 
 
 

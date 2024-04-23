@@ -16,7 +16,6 @@ export default function CompBoard() {
     let ship4 = compBoard.ships.ship4;
     let ship5 = compBoard.ships.ship5;
     
-    
     let ship1Coords = secureSpot(ship1);
     let ship2Coords = secureSpot(ship2);
     let ship3Coords = secureSpot(ship3);
