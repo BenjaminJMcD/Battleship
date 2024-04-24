@@ -50,9 +50,9 @@ export default class Player {
     }
 
     // HELPER FUNCTION TO SEARCH REMAINING MOVES
-    searchRemainingMoves(parentArray, childArray) {
-        for (let i=0; i<parentArray.length; i++) {
-            if (parentArray[i].every(function(value, index) {
+    searchRemainingMoves(childArray) {
+        for (let i=0; i<this.remainingMoves.length; i++) {
+            if (this.remainingMoves[i].every(function(value, index) {
                 return value === childArray[index]})) {
                     return true;
                 }
@@ -98,16 +98,16 @@ export default class Player {
         let left = column-1;
         let right = column+1;
 
-        if (up>=0 && this.searchRemainingMoves(this.remainingMoves, [up, column])) {
+        if (up>=0 && this.searchRemainingMoves([up, column])) {
             possibleMoves.push([up, column])
         };
-        if (down<10 && this.searchRemainingMoves(this.remainingMoves, [down, column])) {
+        if (down<10 && this.searchRemainingMoves([down, column])) {
             possibleMoves.push([down, column])
         };
-        if (left>=0 && this.searchRemainingMoves(this.remainingMoves, [row, left])) {
+        if (left>=0 && this.searchRemainingMoves([row, left])) {
             possibleMoves.push([row, left])
         };
-        if (right<10 && this.searchRemainingMoves(this.remainingMoves, [row, right])) {
+        if (right<10 && this.searchRemainingMoves([row, right])) {
             possibleMoves.push([row, right])
         }
 
@@ -135,35 +135,35 @@ export default class Player {
         // HIT -- DOCUMENT ATTACK AND RUN DIRECTED MOVE
         else if (playerBoard.board[newRow][newColumn] == 1) {
             playerBoard.receiveAttack(newRow, newColumn);
-            // return this.directedHit(row, column, newRow, newColumn, playerBoard);
             return this.directedMove(row, column, newRow, newColumn, playerBoard);
         }
     }
 
     directedMove(oldRow, oldColumn, newRow, newColumn, playerBoard) {
 
-        console.log("DIRECTED MOVE")
-
-        let possibleMoves = [];
-
         //
         // NEW ROW ON TOP, OLD ROW ON BOT
         if (oldRow > newRow) {
             let top = newRow;
             let bot = oldRow;
+            let possibleMoves = [];
 
             // CHECK IF ABOVE/BELOW ARE VALID MOVES
-            if (top >= 0 && this.searchRemainingMoves(this.remainingMoves.length, [top-1, oldColumn])) {
-                possibleMoves.push(top-1);
+
+            let newTop = top-1;
+            let newBot = bot+1;
+
+            if (top >= 0 && this.searchRemainingMoves([newTop, oldColumn])) {
+                possibleMoves.push(newTop);
             }
-            if (bot < 10 && this.searchRemainingMoves(this.remainingMoves.length, [bot+1, oldColumn])) {
-                possibleMoves.push(bot+1);
+            if (bot < 10 && this.searchRemainingMoves([newBot, oldColumn])) {
+                possibleMoves.push(newBot);
             }
 
             // IF VALID MOVE
             if (possibleMoves.length != 0) {
                 // PICK MOVE AT RANDOM
-                let index = randomIndex(possibleMoves.length);
+                let index = this.randomIndex(possibleMoves.length);
                 // REMOVE MOVE FROM REMAININGMOVES
                 let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
                 this.remainingMoves.splice(remainingMovesIndex, 1);
@@ -199,18 +199,24 @@ export default class Player {
         else if (oldRow < newRow) {
             let top = oldRow;
             let bot = newRow;
+            let possibleMoves = [];
+
             // CHECK IF ABOVE/BELOW ARE VALID MOVES
-            if (top >= 0 && this.searchRemainingMoves(this.remainingMoves.length, [top-1, oldColumn])) {
-                possibleMoves.push(top-1);
+
+            let newTop = top-1;
+            let newBot = bot+1;
+
+            if (top >= 0 && this.searchRemainingMoves([newTop, oldColumn])) {
+                possibleMoves.push(newTop);
             }
-            if (bot < 10 && this.searchRemainingMoves(this.remainingMoves.length, [bot+1, oldColumn])) {
-                possibleMoves.push(bot+1);
+            if (bot < 10 && this.searchRemainingMoves([newBot, oldColumn])) {
+                possibleMoves.push(newBot);
             }
 
             // IF VALID MOVE
             if (possibleMoves.length != 0) {
                 // PICK MOVE AT RANDOM
-                let index = randomIndex(possibleMoves.length);
+                let index = this.randomIndex(possibleMoves.length);
                 // REMOVE MOVE FROM REMAININGMOVES
                 let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
                 this.remainingMoves.splice(remainingMovesIndex, 1);
@@ -245,17 +251,21 @@ export default class Player {
         else if (oldColumn > newColumn) {
             let left = newColumn;
             let right = oldColumn;
+            let possibleMoves = [];
 
-            if (left > 0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
-                possibleMoves.push(left-1);
+            let newLeft = left-1;
+            let newRight = right+1;
+
+            if (left > 0 && this.searchRemainingMoves([oldRow, newLeft])) {
+                possibleMoves.push(newLeft);
             }
-            if (right < 10 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, right+1])) {
-                possibleMoves.push(right+1);
+            if (right < 10 && this.searchRemainingMoves([oldRow, newRight])) {
+                possibleMoves.push(newRight);
             }
 
             if (possibleMoves.length !=0) {
                 // PICK MOVE AT RANDOM
-                let index = randomIndex(possibleMoves.length);
+                let index = this.randomIndex(possibleMoves.length);
                 // REMOVE MOVE FROM REMAININGMOVES
                 let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
                 this.remainingMoves.splice(remainingMovesIndex, 1);
@@ -289,19 +299,24 @@ export default class Player {
         else if (oldColumn < newColumn) {
             let left = oldColumn;
             let right = newColumn;
+            let possibleMoves = [];
 
             // IF NEW MOVE VALID, ADD TO POSSIBLE MOVES FOR LEFT AND RIGHT +-1
-            if (left > 0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
-                possibleMoves.push(left-1);
+
+            let newLeft = left-1;
+            let newRight = right+1;
+
+            if (left > 0 && this.searchRemainingMoves([oldRow, newLeft])) {
+                possibleMoves.push(newLeft);
             }
-            if (right < 10 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, right+1])) {
-                possibleMoves.push(right+1);
+            if (right < 10 && this.searchRemainingMoves([oldRow, newRight])) {
+                possibleMoves.push(newRight);
             }
 
             // IF THERE ARE VALID MOVES
             if (possibleMoves.length !=0) {
                 // PICK MOVE AT RANDOM AND REMOVE FROM REMAINING MOVES
-                let index = randomIndex(possibleMoves.length);
+                let index = this.randomIndex(possibleMoves.length);
                 let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
                 this.remainingMoves.splice(remainingMovesIndex, 1);
 
@@ -330,17 +345,6 @@ export default class Player {
             }
 
         }
-
-        // FIND TOP/BOTTOM OR LEFT/RIGHT
-
-
-        // CREATE LIST OF POSSIBLE SMART DIRECTED MOVES
-
-
-
-
-
-
     }
 
 }
