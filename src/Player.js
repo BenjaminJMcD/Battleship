@@ -136,46 +136,108 @@ export default class Player {
         else if (playerBoard.board[newRow][newColumn] == 1) {
             playerBoard.receiveAttack(newRow, newColumn);
             // return this.directedHit(row, column, newRow, newColumn, playerBoard);
-            return this.adjacentMove(newRow, newColumn, playerBoard);
+            return this.directedMove(row, column, newRow, newColumn, playerBoard);
         }
     }
 
     directedMove(oldRow, oldColumn, newRow, newColumn, playerBoard) {
 
-        // ISSUE !!!!   NEED TO FIGURE OUT WHAT'S GOING ON BEFORE CHECKING VALID MOVES OR ELSE THIS ONLY WORKS FOR NEXT MOVE
-
-        // IF FIRST MOVE 3,3 THEN ADJACENT MOVE 3,4 THEN DIRECTED MOVE 3,2 AND HIT, DIFFERENT FROM IF MOVES 3,3 3,4 3,5 BC ONLY LOOKING AT LAST TWO MOVES
-
-        //    0 1 2 3 4 5 6 7 8 9
-        // 0 [0,0,0,0,0,0,0,0,0,0],
-        // 1 [0,0,0,0,0,0,0,0,0,0],
-        // 2 [0,0,0,0,0,0,0,0,0,0],
-        // 3 [1,1,3,3,1,0,0,0,0,0],
-        // 4 [0,0,0,0,0,0,0,0,0,0],
-        // 5 [0,0,0,0,0,0,0,1,0,0],
-        // 6 [0,0,0,0,0,0,0,1,0,0],
-        // 7 [0,0,0,0,0,0,0,3,0,0],
-        // 8 [0,0,0,0,0,0,0,3,0,0],
-        // 9 [0,0,0,0,0,0,0,1,0,0]
-
-
-        // if oldRow > newRow
-        // if oldRow == newRow              figure out and 
-        // if oldRow < newRow               keep track of top n bottom
+        console.log("DIRECTED MOVE")
 
         let possibleMoves = [];
 
         //
         // NEW ROW ON TOP, OLD ROW ON BOT
         if (oldRow > newRow) {
+            let top = newRow;
+            let bot = oldRow;
 
+            // CHECK IF ABOVE/BELOW ARE VALID MOVES
+            if (top >= 0 && this.searchRemainingMoves(this.remainingMoves.length, [top-1, oldColumn])) {
+                possibleMoves.push(top-1);
+            }
+            if (bot < 10 && this.searchRemainingMoves(this.remainingMoves.length, [bot+1, oldColumn])) {
+                possibleMoves.push(bot+1);
+            }
+
+            // IF VALID MOVE
+            if (possibleMoves.length != 0) {
+                // PICK MOVE AT RANDOM
+                let index = randomIndex(possibleMoves.length);
+                // REMOVE MOVE FROM REMAININGMOVES
+                let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
+                this.remainingMoves.splice(remainingMovesIndex, 1);
+
+                // IF HIT
+                if (playerBoard.board[possibleMoves[index]][oldColumn] == 1) {
+                    // RECEIVE ATTACK
+                    playerBoard.receiveAttack(possibleMoves[index], oldColumn);
+                    // RUN DIRECTED MOVE WITH NEW BOOKENDS
+                    if (possibleMoves[index] > top) {
+                        let newBookendRow = possibleMoves[index];
+                        return this.directedMove(newBookendRow, oldColumn, bot, newColumn, playerBoard);
+                    }
+                    else if (possibleMoves[index < bot]) {
+                        let newBookendRow = possibleMoves[index];
+                        return this.directedMove(newBookendRow, oldColumn, top, newColumn, playerBoard);
+                    }
+                }
+                // IF MISS
+                else if (playerBoard.board[possibleMoves[index]][oldColumn] == 0) {
+                    return playerBoard.receiveAttack(possibleMoves[index], oldColumn);
+                }
+            }
+            // NO VALID MOVES -- RANDOM MOVE
+            else {
+                return this.computerMove(playerBoard);
+            }
 
         }
 
         //
         // OLD ROW ON TOP, NEW ROW ON BOT
         else if (oldRow < newRow) {
+            let top = oldRow;
+            let bot = newRow;
+            // CHECK IF ABOVE/BELOW ARE VALID MOVES
+            if (top >= 0 && this.searchRemainingMoves(this.remainingMoves.length, [top-1, oldColumn])) {
+                possibleMoves.push(top-1);
+            }
+            if (bot < 10 && this.searchRemainingMoves(this.remainingMoves.length, [bot+1, oldColumn])) {
+                possibleMoves.push(bot+1);
+            }
 
+            // IF VALID MOVE
+            if (possibleMoves.length != 0) {
+                // PICK MOVE AT RANDOM
+                let index = randomIndex(possibleMoves.length);
+                // REMOVE MOVE FROM REMAININGMOVES
+                let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
+                this.remainingMoves.splice(remainingMovesIndex, 1);
+
+                // IF HIT
+                if (playerBoard.board[possibleMoves[index]][oldColumn] == 1) {
+                    // RECEIVE ATTACK
+                    playerBoard.receiveAttack(possibleMoves[index], oldColumn);
+                    // RUN DIRECTED MOVE WITH NEW BOOKENDS
+                    if (possibleMoves[index] > top) {
+                        let newBookendRow = possibleMoves[index];
+                        return this.directedMove(newBookendRow, oldColumn, bot, newColumn, playerBoard);
+                    }
+                    else if (possibleMoves[index < bot]) {
+                        let newBookendRow = possibleMoves[index];
+                        return this.directedMove(newBookendRow, oldColumn, top, newColumn, playerBoard);
+                    }
+                }
+                // IF MISS
+                else if (playerBoard.board[possibleMoves[index]][oldColumn] == 0) {
+                    return playerBoard.receiveAttack(possibleMoves[index], oldColumn);
+                }
+            }
+            // NO VALID MOVES -- RANDOM MOVE
+            else {
+                return this.computerMove(playerBoard);
+            }
         }
 
         //
@@ -184,7 +246,7 @@ export default class Player {
             let left = newColumn;
             let right = oldColumn;
 
-            if (left >=0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
+            if (left > 0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
                 possibleMoves.push(left-1);
             }
             if (right < 10 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, right+1])) {
@@ -205,11 +267,11 @@ export default class Player {
                     // RUN DIRECTED MOVE WITH NEW BOOKENDS
                     if (possibleMoves[index] > right) {
                         let newBookendColumn = possibleMoves[index];
-                        return this.directedMove(oldRow, left, newRow, newBookendColumn);
+                        return this.directedMove(oldRow, left, newRow, newBookendColumn, playerBoard);
                     }
                     else if (possibleMoves[index < left]) {
                         let newBookendColumn = possibleMoves[index];
-                        return this.directedMove(oldRow, newBookendColumn, newRow, right);
+                        return this.directedMove(oldRow, newBookendColumn, newRow, right, playerBoard);
                     }
                 }
                 // IF MISS
@@ -229,7 +291,7 @@ export default class Player {
             let right = newColumn;
 
             // IF NEW MOVE VALID, ADD TO POSSIBLE MOVES FOR LEFT AND RIGHT +-1
-            if (left >= 0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
+            if (left > 0 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, left-1])) {
                 possibleMoves.push(left-1);
             }
             if (right < 10 && this.searchRemainingMoves(this.remainingMoves.length, [oldRow, right+1])) {
