@@ -153,10 +153,10 @@ export default class Player {
             let newTop = top-1;
             let newBot = bot+1;
 
-            if (top >= 0 && this.searchRemainingMoves([newTop, oldColumn])) {
+            if (top > 0 && this.searchRemainingMoves([newTop, oldColumn])) {
                 possibleMoves.push(newTop);
             }
-            if (bot < 10 && this.searchRemainingMoves([newBot, oldColumn])) {
+            if (bot < 9 && this.searchRemainingMoves([newBot, oldColumn])) {
                 possibleMoves.push(newBot);
             }
 
@@ -165,7 +165,7 @@ export default class Player {
                 // PICK MOVE AT RANDOM
                 let index = this.randomIndex(possibleMoves.length);
                 // REMOVE MOVE FROM REMAININGMOVES
-                let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
+                let remainingMovesIndex = this.remainingMoves.indexOf([possibleMoves[index], oldColumn]);
                 this.remainingMoves.splice(remainingMovesIndex, 1);
 
                 // IF HIT
@@ -173,11 +173,11 @@ export default class Player {
                     // RECEIVE ATTACK
                     playerBoard.receiveAttack(possibleMoves[index], oldColumn);
                     // RUN DIRECTED MOVE WITH NEW BOOKENDS
-                    if (possibleMoves[index] > top) {
+                    if (possibleMoves[index] < top) {
                         let newBookendRow = possibleMoves[index];
                         return this.directedMove(newBookendRow, oldColumn, bot, newColumn, playerBoard);
                     }
-                    else if (possibleMoves[index < bot]) {
+                    else if (possibleMoves[index] > bot) {
                         let newBookendRow = possibleMoves[index];
                         return this.directedMove(newBookendRow, oldColumn, top, newColumn, playerBoard);
                     }
@@ -206,10 +206,10 @@ export default class Player {
             let newTop = top-1;
             let newBot = bot+1;
 
-            if (top >= 0 && this.searchRemainingMoves([newTop, oldColumn])) {
+            if (top > 0 && this.searchRemainingMoves([newTop, oldColumn])) {
                 possibleMoves.push(newTop);
             }
-            if (bot < 10 && this.searchRemainingMoves([newBot, oldColumn])) {
+            if (bot < 9 && this.searchRemainingMoves([newBot, oldColumn])) {
                 possibleMoves.push(newBot);
             }
 
@@ -218,7 +218,7 @@ export default class Player {
                 // PICK MOVE AT RANDOM
                 let index = this.randomIndex(possibleMoves.length);
                 // REMOVE MOVE FROM REMAININGMOVES
-                let remainingMovesIndex = this.remainingMoves.indexOf([oldRow, possibleMoves[index]]);
+                let remainingMovesIndex = this.remainingMoves.indexOf([possibleMoves[index], oldColumn]);
                 this.remainingMoves.splice(remainingMovesIndex, 1);
 
                 // IF HIT
@@ -226,11 +226,11 @@ export default class Player {
                     // RECEIVE ATTACK
                     playerBoard.receiveAttack(possibleMoves[index], oldColumn);
                     // RUN DIRECTED MOVE WITH NEW BOOKENDS
-                    if (possibleMoves[index] > top) {
+                    if (possibleMoves[index] < top) {
                         let newBookendRow = possibleMoves[index];
                         return this.directedMove(newBookendRow, oldColumn, bot, newColumn, playerBoard);
                     }
-                    else if (possibleMoves[index < bot]) {
+                    else if (possibleMoves[index] > bot) {
                         let newBookendRow = possibleMoves[index];
                         return this.directedMove(newBookendRow, oldColumn, top, newColumn, playerBoard);
                     }
@@ -259,7 +259,7 @@ export default class Player {
             if (left > 0 && this.searchRemainingMoves([oldRow, newLeft])) {
                 possibleMoves.push(newLeft);
             }
-            if (right < 10 && this.searchRemainingMoves([oldRow, newRight])) {
+            if (right < 9 && this.searchRemainingMoves([oldRow, newRight])) {
                 possibleMoves.push(newRight);
             }
 
@@ -279,7 +279,7 @@ export default class Player {
                         let newBookendColumn = possibleMoves[index];
                         return this.directedMove(oldRow, left, newRow, newBookendColumn, playerBoard);
                     }
-                    else if (possibleMoves[index < left]) {
+                    else if (possibleMoves[index] < left) {
                         let newBookendColumn = possibleMoves[index];
                         return this.directedMove(oldRow, newBookendColumn, newRow, right, playerBoard);
                     }
@@ -309,7 +309,7 @@ export default class Player {
             if (left > 0 && this.searchRemainingMoves([oldRow, newLeft])) {
                 possibleMoves.push(newLeft);
             }
-            if (right < 10 && this.searchRemainingMoves([oldRow, newRight])) {
+            if (right < 9 && this.searchRemainingMoves([oldRow, newRight])) {
                 possibleMoves.push(newRight);
             }
 
@@ -327,11 +327,11 @@ export default class Player {
                     // RUN DIRECTED MOVE WITH NEW BOOKENDS
                     if (possibleMoves[index] > right) {
                         let newBookendColumn = possibleMoves[index];
-                        return this.directedMove(oldRow, left, newRow, newBookendColumn);
+                        return this.directedMove(oldRow, left, newRow, newBookendColumn, playerBoard);
                     }
-                    else if (possibleMoves[index < left]) {
+                    else if (possibleMoves[index] < left) {
                         let newBookendColumn = possibleMoves[index];
-                        return this.directedMove(oldRow, newBookendColumn, newRow, right);
+                        return this.directedMove(oldRow, newBookendColumn, newRow, right, playerBoard);
                     }
                 }
                 // IF MISS
