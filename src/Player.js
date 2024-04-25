@@ -16,12 +16,6 @@ export default class Player {
         // SWITCH PLAYER
         // 
 
-    // CREATE AI FOR COMPUTER
-        // LEGAL MOVES
-        // ADJACENT MOVES IF HIT
-
-
-    // 
 
     allMoves() {
         let moves = [];

@@ -1,33 +1,48 @@
 import './style.css';
-import Ship from './Ship';
-import Gameboard from './Gameboard';
-import Player from './Player';
 import newGame from './newGame';
-import CompBoard from './CompBoard';
+
 
 // GENERATES COMPUTER BOARD W RANDOM SHIP PLACEMENTS
-let playerBoard = new Gameboard;
-let computer = new Player;
 
-playerBoard.placeShip(playerBoard.ships.ship5, 0, 0);
-playerBoard.placeShip(playerBoard.ships.ship4, 1, 0);
-playerBoard.placeShip(playerBoard.ships.ship3, 2, 0);
-playerBoard.placeShip(playerBoard.ships.ship2, 3, 0);
-playerBoard.placeShip(playerBoard.ships.ship1, 4, 0);
+let game = newGame();
 
-computer.computerMove(playerBoard);
+let compBoard = game.compBoard.board;
+let playerBoard = game.playerBoard.board;
+let comp = game.computer;
+let player = game.player1;
 
-console.log(playerBoard.board);
+let main = document.createElement("div");
+main.classList.add("main");
+document.body.appendChild(main);
 
+let playerGameBoard = document.createElement("div");
+playerGameBoard.classList.add("playerBoard");
+playerGameBoard.classList.add("gameBoard");
+main.appendChild(playerGameBoard);
 
+let compGameBoard = document.createElement("div");
+compGameBoard.classList.add("compBoard");
+compGameBoard.classList.add("gameBoard");
+main.appendChild(compGameBoard);
 
+function generateBoard(divBoard, gameBoard) {
+    for (let i=0; i<10; i++) {
+        for (let j=0; j<10; j++) {
+            let gridSquare = document.createElement("div");
+            divBoard.appendChild(gridSquare);
+            gridSquare.classList.add("gridSquare");
+            gridSquare.setAttribute("row", i);
+            gridSquare.setAttribute("column", j);
 
+            if (gameBoard[i][j] == 0) {
+                gridSquare.classList.add("empty");
+            }
+            else if (gameBoard[i][j] == 1) {
+                gridSquare.classList.add("ship")
+            }
+        }
+    }
+}
 
-
-//   GAME LOOP   +    MODULE FOR DOM INTERACTION
-
-// GAME LOOP == CREATE PLAYERS AND POPULATE BOARD
-
-// CLICK HANDLER == IN GAMEBOARD
-
-// 
+generateBoard(playerGameBoard, playerBoard);
+generateBoard(compGameBoard, compBoard);
