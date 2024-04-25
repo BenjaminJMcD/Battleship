@@ -15,18 +15,32 @@ export default function CompBoard() {
     let ship3 = compBoard.ships.ship3;
     let ship4 = compBoard.ships.ship4;
     let ship5 = compBoard.ships.ship5;
-    
+
+    do {
     let ship1Coords = secureSpot(ship1);
-    let ship2Coords = secureSpot(ship2);
-    let ship3Coords = secureSpot(ship3);
-    let ship4Coords = secureSpot(ship4);
-    let ship5Coords = secureSpot(ship5);
-    
     compBoard.placeShip(ship1, ship1Coords.row, ship1Coords.column);
+    } while (ship1.placement.length = 0)
+
+    do {
+    let ship2Coords = secureSpot(ship2);
     compBoard.placeShip(ship2, ship2Coords.row, ship2Coords.column);
+    } while (ship2.placement.length = 0);
+
+    do {
+    let ship3Coords = secureSpot(ship3);
     compBoard.placeShip(ship3, ship3Coords.row, ship3Coords.column);
+    } while (ship3.placement.length = 0)
+
+    do {
+    let ship4Coords = secureSpot(ship4);
     compBoard.placeShip(ship4, ship4Coords.row, ship4Coords.column);
+    } while (ship4.placement.length = 0)
+
+    do {
+    let ship5Coords = secureSpot(ship5);
     compBoard.placeShip(ship5, ship5Coords.row, ship5Coords.column);
+    } while (ship5.placement.length = 0);
+    
 
     return compBoard;
 
@@ -52,7 +66,7 @@ function alternateVert (ship) {
 function secureSpot(ship) {
     
     if (ship.vert) {
-        let row = randomNumber(ship.length + 1);
+        let row = randomNumber(ship.length+1);
         let column = randomNumber(10);
         return {
             row,
@@ -61,7 +75,7 @@ function secureSpot(ship) {
     }
     else if (!ship.vert) {
         let row = randomNumber(10);
-        let column = randomNumber(ship.length + 1)
+        let column = randomNumber(ship.length+1);
         return {
             row,
             column

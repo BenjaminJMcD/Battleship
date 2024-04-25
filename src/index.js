@@ -38,7 +38,13 @@ function generateBoard(divBoard, gameBoard) {
                 gridSquare.classList.add("empty");
             }
             else if (gameBoard[i][j] == 1) {
-                gridSquare.classList.add("ship")
+                gridSquare.classList.add("ship");
+            }
+            else if (gameBoard[i][j] == 2) {
+                gridSquare.classList.add("miss");
+            }
+            else if (gameBoard[i][j] == 3) {
+                gridSquare.classList.add("hit");
             }
         }
     }
