@@ -6,11 +6,14 @@ import newGame from './newGame';
 
 let game = newGame();
 
-let computer = game.compBoard
-let compBoard = game.compBoard.board;
-let playerBoard = game.playerBoard.board;
-let comp = game.computer;
-let player = game.player1;
+let computer = game.compBoard               // GAMEBOARD
+let compBoard = game.compBoard.board;       // GAMEBOARD.BOARD
+let player1 = game.playerBoard;             // GAMEBOARD
+let playerBoard = game.playerBoard.board;   // GAMEBOARD.BOARD
+let comp = game.computer;                   // PLAYER
+let player = game.player1;                  // PLAYER
+
+let playerTurn = true;
 
 
 // PLAYERBOARD PLACEMENT FOR TESTING
@@ -35,6 +38,7 @@ compGameBoard.classList.add("gameBoard");
 main.appendChild(compGameBoard);
 
 function generatePlayerBoard() {
+    playerGameBoard.innerHTML = "";
     for (let i=0; i<10; i++) {
         for (let j=0; j<10; j++) {
             let gridSquare = document.createElement("div");
@@ -69,12 +73,12 @@ function generateComputerBoard() {
             gridSquare.classList.add("gridSquare");
             gridSquare.setAttribute("row", i);
             gridSquare.setAttribute("column", j);
-            // EVENT LISTENER ATTACK
             gridSquare.onclick = function(e) {
                 let row = e.target.getAttribute("row");
                 let col = e.target.getAttribute("column");
-                computer.receiveAttack(row, col);
+                player.playerMove(row, col, computer, player1);
                 generateComputerBoard();
+                generatePlayerBoard();
             }
 
             if (compBoard[i][j] == 0) {

@@ -6,17 +6,6 @@ export default class Player {
         this.playerTurn = true;
     }
 
-    ///
-    /// MAIN TAKE TURN METHOD ??
-    /// changes playerTurn
-    ///
-
-    // ABILITY TO TAKE TURNS ATTACKING ENEMY GAMEBOARD
-        // SWITCH GAMEBOARD
-        // SWITCH PLAYER
-        // 
-
-
     allMoves() {
         let moves = [];
         for (let i=0; i<10; i++) {
@@ -27,19 +16,12 @@ export default class Player {
         return moves;
     }
 
-
-    eventHandler(row, column, board) {
-        if (this.playerTurn) {
-            this.player1.playerMove(row, column, board);
-        }
-    }
-
-    playerMove(row, column, computerBoard) {
+    playerMove(row, column, computerBoard, playerBoard) {
 
         computerBoard.receiveAttack(row, column);
 
         if (computerBoard.board[row][column] == 2) {
-            this.playerTurn = false;
+            this.computerMove(playerBoard)
         }
     }
 
@@ -78,9 +60,10 @@ export default class Player {
         else if (playerBoard.board[row][column] == 1) {
             playerBoard.receiveAttack(row, column);
             // MOVE AGAIN W SMART MOVE
-            return this.adjacentMove(row, column, playerBoard);
+
+            return this.adjacentMove(row, column, playerBoard)
         }
-}
+    }
 
     adjacentMove(row, column, playerBoard) {
         
@@ -107,7 +90,8 @@ export default class Player {
 
         // IF NO SMART MOVES, GO BACK TO RANDOM MOVE
         if (possibleMoves.length == 0) {
-            return this.computerMove(playerBoard);
+            return setTimeout(() => {
+                this.computerMove(playerBoard);}, 500); 
         }
 
         // PICK MOVE RANDOMLY FROM POSSIBLE MOVES
@@ -183,7 +167,7 @@ export default class Player {
             }
             // NO VALID MOVES -- RANDOM MOVE
             else {
-                return this.computerMove(playerBoard);
+                return this.computerMove(playerBoard)
             }
 
         }
@@ -236,7 +220,7 @@ export default class Player {
             }
             // NO VALID MOVES -- RANDOM MOVE
             else {
-                return this.computerMove(playerBoard);
+                return this.computerMove(playerBoard)
             }
         }
 
@@ -284,7 +268,7 @@ export default class Player {
                 }
             }
             else {
-                return this.computerMove(playerBoard);
+                return this.computerMove(playerBoard)
             }
         }
 
@@ -335,7 +319,7 @@ export default class Player {
             }
             // IF THERE ARE NO VALID MOVES, RANDOM ATTACK
             else {
-                return this.computerMove(playerBoard);
+                return this.computerMove(playerBoard)
             }
 
         }

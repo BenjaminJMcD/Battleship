@@ -100,7 +100,7 @@ export default class Gameboard {
                 }   
             }
         }
-        return this.board;
+        // return this.board;
     }
 
     // REPORT IF ALL SHIPS ARE SUNK
@@ -124,24 +124,6 @@ export default class Gameboard {
             gameOver = true;
         }
         return gameOver
-    }
-
-
-
-    //
-    //
-    //
-    // POSSIBLE CLICK HANDLER FOR GAME TO GET ROW/COLUMN
-
-    clickHandler = (e) => {
-        const clicked = e.target
-        const row = clicked.getAttribute("row");
-        const column = clicked.getAttribute("column");
-
-        return {
-            row,
-            column
-        }
     }
 
 
