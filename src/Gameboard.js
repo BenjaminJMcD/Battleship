@@ -30,7 +30,7 @@ export default class Gameboard {
 
     // board[ROW][COLUMN]
 
-    placeShip(ship, row, column, failSafe) {
+    placeShip(ship, row, column) {
         
         // VERT = TRUE/FALSE
         // IF PLACEMENT OUT OF BOUNDS, RETURNS ORIGINAL BOARD
