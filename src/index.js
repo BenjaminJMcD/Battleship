@@ -81,6 +81,13 @@ function generateComputerBoard() {
                 generatePlayerBoard();
             }
 
+            let gameOver = computer.reportSunk();
+
+            if (gameOver == true) {
+                gridSquare.onclick = null;
+                // PLAYER WINS FUNCTION (prompt w start over button ?)
+            }
+
             if (compBoard[i][j] == 0) {
                 gridSquare.classList.add("empty");
             }
@@ -100,7 +107,9 @@ function generateComputerBoard() {
 
 // SHIPS TO BE PLACED 
 
-// EVENT LISTENER FOR 
+// EVENT LISTENER FOR CLICK, DRAG, DROP ON GRIDSQUARE
+
+// CHANGE ORIENTATION WHEN PRESS SHIFT WHILE DRAGGING ???
 
 
 
