@@ -16,15 +16,6 @@ export default class Player {
         return moves;
     }
 
-    playerMove(row, column, computerBoard, playerBoard) {
-
-        computerBoard.receiveAttack(row, column);
-
-        if (computerBoard.board[row][column] == 2) {
-            this.computerMove(playerBoard)
-        }
-    }
-
     // HELPER FUNCTION TO SEARCH REMAINING MOVES
     searchRemainingMoves(childArray) {
         for (let i=0; i<this.remainingMoves.length; i++) {
@@ -38,6 +29,15 @@ export default class Player {
 
     randomIndex(highValue) {
         return Math.floor(Math.random() * highValue)
+    }
+    
+    playerMove(row, column, computerBoard, playerBoard) {
+
+        computerBoard.receiveAttack(row, column);
+
+        if (computerBoard.board[row][column] == 2) {
+            this.computerMove(playerBoard)
+        }
     }
 
     computerMove(playerBoard) {

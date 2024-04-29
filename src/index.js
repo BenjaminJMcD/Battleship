@@ -13,8 +13,6 @@ let playerBoard = game.playerBoard.board;   // GAMEBOARD.BOARD
 let comp = game.computer;                   // PLAYER
 let player = game.player1;                  // PLAYER
 
-let playerTurn = true;
-
 
 // PLAYERBOARD PLACEMENT FOR TESTING
 game.playerBoard.placeShip(game.playerBoard.ships.ship1, 0, 0);
@@ -47,6 +45,8 @@ function generatePlayerBoard() {
             gridSquare.setAttribute("row", i);
             gridSquare.setAttribute("column", j);
             // ADD EVENT LISTENER FOR PLACE SHIP
+
+
 
             if (playerBoard[i][j] == 0) {
                 gridSquare.classList.add("empty");
@@ -86,6 +86,7 @@ function generateComputerBoard() {
             }
             else if (compBoard[i][j] == 2) {
                 gridSquare.classList.add("miss");
+                gridSquare.onclick = null;
             }
             else if (compBoard[i][j] == 1) {
                 gridSquare.classList.add("empty");
@@ -96,6 +97,10 @@ function generateComputerBoard() {
         }
     }
 }
+
+// SHIPS TO BE PLACED 
+
+// EVENT LISTENER FOR 
 
 
 
