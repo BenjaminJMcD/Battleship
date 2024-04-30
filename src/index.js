@@ -81,11 +81,16 @@ function generateComputerBoard() {
                 generatePlayerBoard();
             }
 
-            let gameOver = computer.reportSunk();
-
-            if (gameOver == true) {
+            // CHECK WIN/LOSE. REMOVE ONCLICK AND ANNOUNCE RESULT
+            let win = computer.reportSunk();
+            let lose = player1.reportSunk();
+            if (win == true) {
                 gridSquare.onclick = null;
                 // PLAYER WINS FUNCTION (prompt w start over button ?)
+            }
+            if (lose == true) {
+                gridSquare.onclick = null;
+                // PLAYER LOSES FUNCTION
             }
 
             if (compBoard[i][j] == 0) {
