@@ -86,11 +86,19 @@ function generateComputerBoard() {
             let lose = player1.reportSunk();
             if (win == true) {
                 gridSquare.onclick = null;
+
+
                 // PLAYER WINS FUNCTION (prompt w start over button ?)
+            
+            
             }
             if (lose == true) {
                 gridSquare.onclick = null;
+
+
                 // PLAYER LOSES FUNCTION
+            
+            
             }
 
             if (compBoard[i][j] == 0) {
@@ -111,6 +119,59 @@ function generateComputerBoard() {
 }
 
 // SHIPS TO BE PLACED 
+
+// SHIPS CONTAINER
+let shipsContainer = document.createElement("div");
+shipsContainer.classList.add("shipsContainer");
+main.appendChild(shipsContainer);
+
+// CREATE SHIPS
+let placeShip1 = document.createElement("div");
+addShipSquares(placeShip1, 2);
+shipsContainer.appendChild(placeShip1);
+
+let placeShip2 = document.createElement("div");
+addShipSquares(placeShip2, 3);
+shipsContainer.appendChild(placeShip2);
+
+let placeShip3 = document.createElement("div");
+addShipSquares(placeShip3, 3);
+shipsContainer.appendChild(placeShip3);
+
+let placeShip4 = document.createElement("div");
+addShipSquares(placeShip4, 4);
+shipsContainer.appendChild(placeShip4);
+
+let placeShip5 = document.createElement("div");
+addShipSquares(placeShip5, 5);
+shipsContainer.appendChild(placeShip5);
+
+function addShipSquares(shipDiv, length) {
+    shipDiv.classList.add("shipDiv");
+    for (let i=0; i<length; i++) {
+        let shipSquare = document.createElement("div");
+        shipSquare.classList.add("shipSquare");
+        shipDiv.appendChild(shipSquare);
+    }
+}
+
+// ADD DRAGGABLE TO ALL SHIPS
+let ships = document.querySelectorAll('.shipDiv');
+ships.forEach(function (ship) {
+    ship.setAttribute("draggable", "true");
+    ship.addEventListener("dragstart", handleDragStart);
+    ship.addEventListener("dragend", handleDragEnd);
+})
+
+function handleDragStart(e) {
+    this.style.opacity = "0.4"
+    e.dataTransfer.setDragImage(e.target, 25, 20);
+}
+
+function handleDragEnd(e) {
+    this.style.opacity = "0.7";
+}
+
 
 // EVENT LISTENER FOR CLICK, DRAG, DROP ON GRIDSQUARE
 
