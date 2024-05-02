@@ -7,6 +7,10 @@ export default class Ship {
         this.sunk = false;
     }
 
+    rotatePlacedShip() {
+        
+    }
+
     hit() {
         return this.hits++;
     }

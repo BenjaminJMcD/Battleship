@@ -15,11 +15,11 @@ let player = game.player1;                  // PLAYER
 
 
 // PLAYERBOARD PLACEMENT FOR TESTING
-game.playerBoard.placeShip(game.playerBoard.ships.ship1, 0, 0);
-game.playerBoard.placeShip(game.playerBoard.ships.ship2, 1, 0);
-game.playerBoard.placeShip(game.playerBoard.ships.ship3, 2, 0);
-game.playerBoard.placeShip(game.playerBoard.ships.ship4, 3, 0);
-game.playerBoard.placeShip(game.playerBoard.ships.ship5, 4, 0);
+// game.playerBoard.placeShip(game.playerBoard.ships.ship1, 0, 0);
+// game.playerBoard.placeShip(game.playerBoard.ships.ship2, 1, 0);
+// game.playerBoard.placeShip(game.playerBoard.ships.ship3, 2, 0);
+// game.playerBoard.placeShip(game.playerBoard.ships.ship4, 3, 0);
+// game.playerBoard.placeShip(game.playerBoard.ships.ship5, 4, 0);
 
 let main = document.createElement("div");
 main.classList.add("main");
@@ -166,6 +166,7 @@ ships.forEach(function (ship) {
 function handleDragStart(e) {
     this.style.opacity = "0.4"
     e.dataTransfer.setDragImage(e.target, 25, 20);
+    
 }
 
 function handleDragEnd(e) {
