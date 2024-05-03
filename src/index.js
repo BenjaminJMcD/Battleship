@@ -14,13 +14,6 @@ let comp = game.computer;                   // PLAYER
 let player = game.player1;                  // PLAYER
 
 
-// PLAYERBOARD PLACEMENT FOR TESTING
-// game.playerBoard.placeShip(game.playerBoard.ships.ship1, 0, 0);
-// game.playerBoard.placeShip(game.playerBoard.ships.ship2, 1, 0);
-// game.playerBoard.placeShip(game.playerBoard.ships.ship3, 2, 0);
-// game.playerBoard.placeShip(game.playerBoard.ships.ship4, 3, 0);
-// game.playerBoard.placeShip(game.playerBoard.ships.ship5, 4, 0);
-
 let main = document.createElement("div");
 main.classList.add("main");
 document.body.appendChild(main);
@@ -35,11 +28,10 @@ compGameBoard.classList.add("compBoard");
 compGameBoard.classList.add("gameBoard");
 main.appendChild(compGameBoard);
 
+
+
 function generatePlayerBoard() {
     playerGameBoard.innerHTML = "";
-
-    let dropRow = 0;
-    let dropCol = 0;
 
     for (let i=0; i<10; i++) {
         for (let j=0; j<10; j++) {
@@ -51,34 +43,34 @@ function generatePlayerBoard() {
             gridSquare.setAttribute("column", j);
             // ADD EVENT LISTENER FOR PLACE SHIP
 
-            gridSquare.ondragover = function(e) {
+            gridSquare.addEventListener("dragover", function(e) {
                 e.preventDefault();
-                dropRow = e.target.getAttribute("row");
-                dropCol = e.target.getAttribute("column");
-            }
+            })
 
-            gridSquare.ondrop = function(e) {
+            gridSquare.addEventListener("drop", function(e) {
                 e.preventDefault();
+
                 let ship = e.dataTransfer.getData("text/html");
+                let dropRow = Number(e.target.getAttribute("row"));
+                let dropCol = Number(e.target.getAttribute("column"));
 
-                if (ship === 'ship1') {
-                    game.playerBoard.placeShip(game.playerBoard.ships.ship1, dropRow, dropCol);
+                if (ship == 'ship1') {
+                    player1.placeShip(player1.ships.ship1, dropRow, dropCol);
                 }
-                else if (ship === 'ship2') {
-                    game.playerBoard.placeShip(game.playerBoard.ships.ship2, dropRow, dropCol);
+                if (ship == 'ship2') {
+                    player1.placeShip(player1.ships.ship2, dropRow, dropCol);
                 }
-                else if (ship === 'ship3') {
-                    game.playerBoard.placeShip(game.playerBoard.ships.ship3, dropRow, dropCol);
+                if (ship == 'ship3') {
+                    player1.placeShip(player1.ships.ship3, dropRow, dropCol);
                 }
-                else if (ship === 'ship4') {
-                    game.playerBoard.placeShip(game.playerBoard.ships.ship4, dropRow, dropCol);
+                if (ship == 'ship4') {
+                    player1.placeShip(player1.ships.ship4, dropRow, dropCol);
                 }
-                else if (ship === 'ship5') {
-                    game.playerBoard.placeShip(game.playerBoard.ships.ship5, dropRow, dropCol);
+                if (ship == 'ship5') {
+                    player1.placeShip(player1.ships.ship5, dropRow, dropCol);
                 }
-
                 generatePlayerBoard();
-            }
+            })
 
 
             if (playerBoard[i][j] == 0) {
@@ -137,12 +129,12 @@ function generateComputerBoard() {
             if (compBoard[i][j] == 0) {
                 gridSquare.classList.add("empty");
             }
+            else if (compBoard[i][j] == 1) {
+                gridSquare.classList.add("ship");
+            }
             else if (compBoard[i][j] == 2) {
                 gridSquare.classList.add("miss");
                 gridSquare.onclick = null;
-            }
-            else if (compBoard[i][j] == 1) {
-                gridSquare.classList.add("empty");
             }
             else if (compBoard[i][j] == 3) {
                 gridSquare.classList.add("hit");
@@ -210,8 +202,9 @@ function handleDragStart(e) {
     e.dataTransfer.setData("text/html", ship)
 }
 
-function handleDragEnd(e) {
+function handleDragEnd() {
     this.style.opacity = "0.4";
+    // this.setAttribute("draggable", "false");
 }
 
 

@@ -31,8 +31,7 @@ export default class Gameboard {
     // board[ROW][COLUMN]
 
     placeShip(ship, row, column) {
-        
-        // CHECK IF ALREADY PLACED
+
         // VERT = TRUE/FALSE
         // IF PLACEMENT OUT OF BOUNDS, RETURNS ORIGINAL BOARD
         // CHECKS FOR COLLISIONS, RETURNS ORIGINAL BOARD IF COLLISION
@@ -58,14 +57,15 @@ export default class Gameboard {
 
         if (!ship.vert && column+ship.length < 11) {
             let conflict = true;
-            for (let i=column; i<column + ship.length; i++) {
+            for (let i=column; i<column+ship.length; i++) {
                 if (this.board[row][i] == 1) {
                     return this.board;
                 }
                 else {conflict = false}
             }
             if (!conflict) {
-                for (let i=column; i<column + ship.length; i++) {
+
+                for (let i=column; i<column+ship.length; i++) {
                     this.board[row][i] = 1;
                     let coord = [];
                     coord.push(row);
