@@ -37,15 +37,48 @@ main.appendChild(compGameBoard);
 
 function generatePlayerBoard() {
     playerGameBoard.innerHTML = "";
+
+    let dropRow = 0;
+    let dropCol = 0;
+
     for (let i=0; i<10; i++) {
         for (let j=0; j<10; j++) {
             let gridSquare = document.createElement("div");
             playerGameBoard.appendChild(gridSquare);
             gridSquare.classList.add("gridSquare");
+            gridSquare.classList.add("playerGridSquare");
             gridSquare.setAttribute("row", i);
             gridSquare.setAttribute("column", j);
             // ADD EVENT LISTENER FOR PLACE SHIP
 
+            gridSquare.ondragover = function(e) {
+                e.preventDefault();
+                dropRow = e.target.getAttribute("row");
+                dropCol = e.target.getAttribute("column");
+            }
+
+            gridSquare.ondrop = function(e) {
+                e.preventDefault();
+                let ship = e.dataTransfer.getData("text/html");
+
+                if (ship === 'ship1') {
+                    game.playerBoard.placeShip(game.playerBoard.ships.ship1, dropRow, dropCol);
+                }
+                else if (ship === 'ship2') {
+                    game.playerBoard.placeShip(game.playerBoard.ships.ship2, dropRow, dropCol);
+                }
+                else if (ship === 'ship3') {
+                    game.playerBoard.placeShip(game.playerBoard.ships.ship3, dropRow, dropCol);
+                }
+                else if (ship === 'ship4') {
+                    game.playerBoard.placeShip(game.playerBoard.ships.ship4, dropRow, dropCol);
+                }
+                else if (ship === 'ship5') {
+                    game.playerBoard.placeShip(game.playerBoard.ships.ship5, dropRow, dropCol);
+                }
+
+                generatePlayerBoard();
+            }
 
 
             if (playerBoard[i][j] == 0) {
@@ -128,23 +161,29 @@ main.appendChild(shipsContainer);
 // CREATE SHIPS
 let placeShip1 = document.createElement("div");
 addShipSquares(placeShip1, 2);
+placeShip1.setAttribute("ship", "ship1");
 shipsContainer.appendChild(placeShip1);
 
 let placeShip2 = document.createElement("div");
 addShipSquares(placeShip2, 3);
+placeShip2.setAttribute("ship", "ship2");
 shipsContainer.appendChild(placeShip2);
 
 let placeShip3 = document.createElement("div");
 addShipSquares(placeShip3, 3);
+placeShip3.setAttribute("ship", "ship3");
 shipsContainer.appendChild(placeShip3);
 
 let placeShip4 = document.createElement("div");
 addShipSquares(placeShip4, 4);
+placeShip4.setAttribute("ship", "ship4");
 shipsContainer.appendChild(placeShip4);
 
 let placeShip5 = document.createElement("div");
 addShipSquares(placeShip5, 5);
+placeShip5.setAttribute("ship", "ship5");
 shipsContainer.appendChild(placeShip5);
+placeShip5 = game.playerBoard.ships.ship5;
 
 function addShipSquares(shipDiv, length) {
     shipDiv.classList.add("shipDiv");
@@ -156,22 +195,26 @@ function addShipSquares(shipDiv, length) {
 }
 
 // ADD DRAGGABLE TO ALL SHIPS
+
 let ships = document.querySelectorAll('.shipDiv');
-ships.forEach(function (ship) {
+ships.forEach(ship => {
     ship.setAttribute("draggable", "true");
     ship.addEventListener("dragstart", handleDragStart);
     ship.addEventListener("dragend", handleDragEnd);
-})
+});
 
 function handleDragStart(e) {
     this.style.opacity = "0.4"
     e.dataTransfer.setDragImage(e.target, 25, 20);
-    
+    let ship = e.target.getAttribute("ship");
+    e.dataTransfer.setData("text/html", ship)
 }
 
 function handleDragEnd(e) {
-    this.style.opacity = "0.7";
+    this.style.opacity = "0.4";
 }
+
+
 
 
 // EVENT LISTENER FOR CLICK, DRAG, DROP ON GRIDSQUARE
@@ -183,4 +226,3 @@ function handleDragEnd(e) {
 generatePlayerBoard();
 generateComputerBoard();
 
-console.log(game.compBoard.board);

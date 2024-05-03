@@ -7,8 +7,13 @@ export default class Ship {
         this.sunk = false;
     }
 
-    rotatePlacedShip() {
-        
+    altVert () {
+        if (this.vert) {
+            this.vert = false
+        }
+        if (!this.vert) {
+            this.vert = true
+        }
     }
 
     hit() {

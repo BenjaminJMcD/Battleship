@@ -32,6 +32,7 @@ export default class Gameboard {
 
     placeShip(ship, row, column) {
         
+        // CHECK IF ALREADY PLACED
         // VERT = TRUE/FALSE
         // IF PLACEMENT OUT OF BOUNDS, RETURNS ORIGINAL BOARD
         // CHECKS FOR COLLISIONS, RETURNS ORIGINAL BOARD IF COLLISION
