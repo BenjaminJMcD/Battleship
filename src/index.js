@@ -28,8 +28,6 @@ compGameBoard.classList.add("compBoard");
 compGameBoard.classList.add("gameBoard");
 main.appendChild(compGameBoard);
 
-
-
 function generatePlayerBoard() {
     playerGameBoard.innerHTML = "";
 
@@ -41,12 +39,11 @@ function generatePlayerBoard() {
             gridSquare.classList.add("playerGridSquare");
             gridSquare.setAttribute("row", i);
             gridSquare.setAttribute("column", j);
-            // ADD EVENT LISTENER FOR PLACE SHIP
 
+            // ADD EVENT LISTENER FOR PLACE SHIP
             gridSquare.addEventListener("dragover", function(e) {
                 e.preventDefault();
             })
-
             gridSquare.addEventListener("drop", function(e) {
                 e.preventDefault();
 
@@ -186,31 +183,69 @@ function addShipSquares(shipDiv, length) {
     }
 }
 
-// ADD DRAGGABLE TO ALL SHIPS
+// ADD DRAGGABLE TO ALL INITIAL PLACEMENT SHIPS
 
 let ships = document.querySelectorAll('.shipDiv');
 ships.forEach(ship => {
+
     ship.setAttribute("draggable", "true");
     ship.addEventListener("dragstart", handleDragStart);
     ship.addEventListener("dragend", handleDragEnd);
+
 });
 
 function handleDragStart(e) {
-    this.style.opacity = "0.4"
-    e.dataTransfer.setDragImage(e.target, 25, 20);
+
+
+        e.dataTransfer.setDragImage(e.target, 25, 20);
+        let ship = e.target.getAttribute("ship");
+        e.dataTransfer.setData("text/html", ship)
+
+}
+
+function handleDragEnd(e) {
+
     let ship = e.target.getAttribute("ship");
-    e.dataTransfer.setData("text/html", ship)
+
+    if (ship == "ship1") {
+        if (player1.ships.ship1.placement.length == 2) {
+            this.style.opacity = "0.4"
+            e.target.setAttribute("draggable", "false");
+        }
+    }
+    if (ship == "ship2") {
+        if (player1.ships.ship2.placement.length == 3) {
+            this.style.opacity = "0.4"
+            e.target.setAttribute("draggable", "false");
+        }
+    }
+    if (ship == "ship3") {
+        if (player1.ships.ship3.placement.length == 3) {
+            this.style.opacity = "0.4"
+            e.target.setAttribute("draggable", "false");
+        }
+    }
+    if (ship == "ship4") {
+        if (player1.ships.ship4.placement.length == 4) {
+            this.style.opacity = "0.4"
+            e.target.setAttribute("draggable", "false");
+        }
+    }
+    if (ship == "ship5") {
+        if (player1.ships.ship5.placement.length == 5) {
+            this.style.opacity = "0.4"
+            e.target.setAttribute("draggable", "false");
+        }
+    }
 }
 
-function handleDragEnd() {
-    this.style.opacity = "0.4";
-    // this.setAttribute("draggable", "false");
-}
+
+// WHILE SETUP = TRUE, ADD DRAGGABLE TO ALL PLACED SHIPS
+// CORRELATE WITH ACTUAL PLAYER1.SHIPS.SHIP
+// CREATE REPLACE FUNCTION
 
 
 
-
-// EVENT LISTENER FOR CLICK, DRAG, DROP ON GRIDSQUARE
 
 // CHANGE ORIENTATION WHEN PRESS SHIFT WHILE DRAGGING ???
 
