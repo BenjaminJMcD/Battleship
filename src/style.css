@@ -38,7 +38,6 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-
 }
 
 .shipDiv {
@@ -47,6 +46,19 @@
     margin-top: 30px;
     margin-left: 10px;
     border: 1px solid black;
+}
+
+.shipsContainerVert {
+    width: 410px;
+    gap: 52px;
+    display:flex;
+    margin: 0px;
+}
+
+.shipDivVert {
+    display: flex;
+    flex-direction: column;
+
 }
 
 .shipSquare {

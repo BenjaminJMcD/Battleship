@@ -183,24 +183,60 @@ function addShipSquares(shipDiv, length) {
     }
 }
 
+// TOGGLE VERT
+
+window.onkeydown = toggleShips
+
+function toggleShips () {
+    toggleVert();
+    toggleVertShip();
+}
+
+
+function toggleVertShip () {
+    let ships = player1.ships;
+    ships.ship1.altVert();
+    ships.ship2.altVert();
+    ships.ship3.altVert();
+    ships.ship4.altVert();
+    ships.ship5.altVert();
+}
+
+function toggleVert () {
+    let ships;
+    if (document.querySelectorAll('.shipDivVert').length == 0){
+        ships = document.querySelectorAll('.shipDiv');
+        ships.forEach(ship => {
+            ship.classList.remove("shipDiv");
+            ship.parentNode.classList.remove("shipsContainer")
+            ship.classList.add("shipDivVert");
+            ship.parentNode.classList.add("shipsContainerVert")
+        });
+    }
+    else {
+        ships = document.querySelectorAll('.shipDivVert');
+        ships.forEach(ship => {
+                ship.classList.remove("shipDivVert");
+                ship.parentNode.classList.remove("shipsContainerVert");
+                ship.classList.add("shipDiv");
+                ship.parentNode.classList.add("shipsContainer");
+        });
+    }
+}
+
 // ADD DRAGGABLE TO ALL INITIAL PLACEMENT SHIPS
 
 let ships = document.querySelectorAll('.shipDiv');
 ships.forEach(ship => {
-
     ship.setAttribute("draggable", "true");
     ship.addEventListener("dragstart", handleDragStart);
     ship.addEventListener("dragend", handleDragEnd);
-
 });
 
 function handleDragStart(e) {
-
-
         e.dataTransfer.setDragImage(e.target, 25, 20);
         let ship = e.target.getAttribute("ship");
-        e.dataTransfer.setData("text/html", ship)
-
+        e.dataTransfer.setData("text/html", ship);
 }
 
 function handleDragEnd(e) {
@@ -238,6 +274,8 @@ function handleDragEnd(e) {
         }
     }
 }
+
+
 
 
 // WHILE SETUP = TRUE, ADD DRAGGABLE TO ALL PLACED SHIPS
