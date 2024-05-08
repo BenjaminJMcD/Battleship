@@ -9,11 +9,9 @@ export default class Ship {
 
     altVert () {
         if (this.vert) {
-            console.log("switch to HORIZ")
             this.vert = false
         }
         else if (!this.vert) {
-            console.log("switch to VERT")
             this.vert = true
         }
     }

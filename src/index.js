@@ -28,11 +28,17 @@ compGameBoard.classList.add("compBoard");
 compGameBoard.classList.add("gameBoard");
 main.appendChild(compGameBoard);
 
+let setup = true;
+    // CANNOT CLICK COMPUTER BOARD
+    // NEED A WAY TO CHECK IF ALL SHIP.PLACEMENTS.LENGTH > 0
+    // SETUP = FALSE ADDS HIDDEN TO PLACE SHIPS
+
 function generatePlayerBoard() {
     playerGameBoard.innerHTML = "";
 
     for (let i=0; i<10; i++) {
         for (let j=0; j<10; j++) {
+            // CREATE AND APPEND GRIDSQUARES WITH ROW/COL ATTRIBUTES
             let gridSquare = document.createElement("div");
             playerGameBoard.appendChild(gridSquare);
             gridSquare.classList.add("gridSquare");
@@ -40,7 +46,7 @@ function generatePlayerBoard() {
             gridSquare.setAttribute("row", i);
             gridSquare.setAttribute("column", j);
 
-            // ADD EVENT LISTENER FOR PLACE SHIP
+            // ADD EVENT LISTENERS FOR DRAG N DROP PLACE SHIP
             gridSquare.addEventListener("dragover", function(e) {
                 e.preventDefault();
             })
@@ -69,7 +75,7 @@ function generatePlayerBoard() {
                 generatePlayerBoard();
             })
 
-
+            // GIVE GRIDSQUARES VALUES TO DOCUMENT PLACEMENT AND GAME
             if (playerBoard[i][j] == 0) {
                 gridSquare.classList.add("empty");
             }
@@ -110,8 +116,11 @@ function generateComputerBoard() {
                 gridSquare.onclick = null;
 
 
-                // PLAYER WINS FUNCTION (prompt w start over button ?)
-            
+                // PLAYER WINS
+                // " YOU WIN " + START OVER BUTTON POP OUT
+                // OBFUSCATE GAME BACKGROUND
+                // NEED FUNCTION TO RESTART ENTIRE APP
+                // JUST RUNNING NEWGAME DOESN'T WORK
             
             }
             if (lose == true) {
@@ -183,15 +192,16 @@ function addShipSquares(shipDiv, length) {
     }
 }
 
-// TOGGLE VERT
+// TOGGLE VERT/HORIZ SHIP OBJECT AND DOM FOR UNPLACED SHIPS
 
 window.onkeydown = toggleShips
 
-function toggleShips () {
+function toggleShips (e) {
+    if (e.shiftKey) {
     toggleVert();
     toggleVertShip();
+    }
 }
-
 
 function toggleVertShip () {
     let ships = player1.ships;
@@ -274,19 +284,6 @@ function handleDragEnd(e) {
         }
     }
 }
-
-
-
-
-// WHILE SETUP = TRUE, ADD DRAGGABLE TO ALL PLACED SHIPS
-// CORRELATE WITH ACTUAL PLAYER1.SHIPS.SHIP
-// CREATE REPLACE FUNCTION
-
-
-
-
-// CHANGE ORIENTATION WHEN PRESS SHIFT WHILE DRAGGING ???
-
 
 
 generatePlayerBoard();
