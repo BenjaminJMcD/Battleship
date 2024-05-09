@@ -28,11 +28,6 @@ compGameBoard.classList.add("compBoard");
 compGameBoard.classList.add("gameBoard");
 main.appendChild(compGameBoard);
 
-let setup = true;
-    // CANNOT CLICK COMPUTER BOARD
-    // NEED A WAY TO CHECK IF ALL SHIP.PLACEMENTS.LENGTH > 0
-    // SETUP = FALSE ADDS HIDDEN TO PLACE SHIPS
-
 function generatePlayerBoard() {
     playerGameBoard.innerHTML = "";
 
@@ -108,37 +103,26 @@ function generateComputerBoard() {
                     player.playerMove(row, col, computer, player1);
                     generateComputerBoard();
                     generatePlayerBoard();
+                    checkWinLose();
                 }
             }
 
-            // CHECK WIN/LOSE. REMOVE ONCLICK AND ANNOUNCE RESULT
+            // CHECK WIN/LOSE. REMOVE ONCLICK
             let win = computer.reportSunk();
             let lose = player1.reportSunk();
             if (win == true) {
                 gridSquare.onclick = null;
-
-
-                // PLAYER WINS
-                // " YOU WIN " + START OVER BUTTON POP OUT
-                // OBFUSCATE GAME BACKGROUND
-                // NEED FUNCTION TO RESTART ENTIRE APP
-                // JUST RUNNING NEWGAME DOESN'T WORK
-            
             }
             if (lose == true) {
                 gridSquare.onclick = null;
-
-
-                // PLAYER LOSES FUNCTION
-            
-            
             }
 
+            // ADD APPROPRIATE CLASS TO EACH GRIDSQUARE
             if (compBoard[i][j] == 0) {
                 gridSquare.classList.add("empty");
             }
             else if (compBoard[i][j] == 1) {
-                gridSquare.classList.add("ship");
+                gridSquare.classList.add("empty");
             }
             else if (compBoard[i][j] == 2) {
                 gridSquare.classList.add("miss");
@@ -287,7 +271,50 @@ function handleDragEnd(e) {
     }
 }
 
+function checkWinLose () {
+    let win = computer.reportSunk();
+    let lose = player1.reportSunk();
+    if (win == true) {
+        winScreen();
+    }
+    if (lose == true) {
+        loseScreen();
+    }
+}
+
+function winScreen () {
+    let winDiv = document.createElement("div");
+    main.appendChild(winDiv);
+    let winTitle = document.createElement("p");
+    winTitle.classList.add("conclusionText");
+    winDiv.appendChild(winTitle);
+    winTitle.innerText = "IT A WIN WIN WIN !"
+
+    let playAgain = document.createElement("button");
+    winDiv.appendChild(playAgain);
+    playAgain.innerText = "PLAY AGAIN ?!"
+    playAgain.addEventListener("click", () => {
+        window.location.reload();
+    })
+}
+
+function loseScreen() {
+    let loseDiv = document.createElement("div");
+    main.appendChild(loseDiv);
+    let loseTitle = document.createElement("p");
+    loseTitle.classList.add("conclusionText")
+    loseDiv.appendChild(loseTitle);
+    loseTitle.innerText = "you LOST !!!!!!"
+
+    let playAgain = document.createElement("button");
+    loseDiv.appendChild(playAgain);
+    playAgain.innerText = "PLAY AGAIN ?!"
+    playAgain.addEventListener("click", () => {
+        window.location.reload();
+    })
+}
 
 generatePlayerBoard();
 generateComputerBoard();
+
 

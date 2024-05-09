@@ -68,6 +68,18 @@
     height: 37px;
 }
 
+.conclusionText {
+    font-size: 30px;
+    margin-left: 70px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
 
-/* transform: rotate(90deg) */
-/* transform: rotate(-90deg) */
+button {
+    border-radius: 20px;
+    height: 70px;
+    font-size: 30px;
+    background-color: black;
+    color: white;
+    margin-left: 90px;
+}
