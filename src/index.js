@@ -102,11 +102,13 @@ function generateComputerBoard() {
             gridSquare.setAttribute("row", i);
             gridSquare.setAttribute("column", j);
             gridSquare.onclick = function(e) {
-                let row = e.target.getAttribute("row");
-                let col = e.target.getAttribute("column");
-                player.playerMove(row, col, computer, player1);
-                generateComputerBoard();
-                generatePlayerBoard();
+                if (player1.setupComplete()) {
+                    let row = e.target.getAttribute("row");
+                    let col = e.target.getAttribute("column");
+                    player.playerMove(row, col, computer, player1);
+                    generateComputerBoard();
+                    generatePlayerBoard();
+                }
             }
 
             // CHECK WIN/LOSE. REMOVE ONCLICK AND ANNOUNCE RESULT

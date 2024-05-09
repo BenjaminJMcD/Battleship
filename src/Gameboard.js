@@ -109,7 +109,7 @@ export default class Gameboard {
     reportSunk() {
 
         let gameOver = false;
-        let sunkArray = [];
+        let counter = 0;
 
         let ships = this.ships;
 
@@ -118,13 +118,33 @@ export default class Gameboard {
             ships[ship].isSunk();
             // PUSH SUNKEN SHIPS TO ARRAY
             if (ships[ship].sunk) {
-                sunkArray.push(ships[ship]);
+                counter++
             }
         }
-        if (sunkArray.length == 5) {
+        if (counter == 5) {
             gameOver = true;
         }
         return gameOver
+    }
+
+    setupComplete() {
+        let gameStart = false;
+        let counter = 0;
+        
+        let ships = this.ships;
+
+        for (const ship in ships) {
+            // CHECK IF SHIPS ARE PLACED
+            ships[ship].shipPlaced();
+            // ADD TO COUNTER IF PLACED
+            if (ships[ship].placed) {
+                counter++
+            }
+        }
+        if (counter == 5) {
+            gameStart = true;
+        }
+        return gameStart;
     }
 
 

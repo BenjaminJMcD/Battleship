@@ -5,6 +5,7 @@ export default class Ship {
         this.vert = false;
         this.placement = [];
         this.sunk = false;
+        this.placed = false;
     }
 
     altVert () {
@@ -26,6 +27,15 @@ export default class Ship {
         }
         else {
             return this.sunk;
+        }
+    }
+
+    shipPlaced() {
+        if (this.placement.length > 0) {
+            this.placed = true;
+        }
+        else {
+            return this.placed
         }
     }
 }
