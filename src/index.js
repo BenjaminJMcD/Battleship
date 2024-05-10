@@ -10,9 +10,12 @@ let computer = game.compBoard               // GAMEBOARD
 let compBoard = game.compBoard.board;       // GAMEBOARD.BOARD
 let player1 = game.playerBoard;             // GAMEBOARD
 let playerBoard = game.playerBoard.board;   // GAMEBOARD.BOARD
-let comp = game.computer;                   // PLAYER
 let player = game.player1;                  // PLAYER
 
+let header = document.createElement("div");
+header.classList.add("header");
+header.innerText = "BATTLESHIP";
+document.body.appendChild(header);
 
 let main = document.createElement("div");
 main.classList.add("main");
@@ -138,9 +141,19 @@ function generateComputerBoard() {
 // SHIPS TO BE PLACED 
 
 // SHIPS CONTAINER
+
+let placeShipsDiv = document.createElement("div");
+placeShipsDiv.classList.add("placeShipsDiv");
+main.appendChild(placeShipsDiv);
+
+let shiftInstruction = document.createElement("p");
+placeShipsDiv.appendChild(shiftInstruction);
+shiftInstruction.classList.add("shiftInstruction")
+shiftInstruction.innerText = "Press SHIFT to change Orientation"
+
 let shipsContainer = document.createElement("div");
 shipsContainer.classList.add("shipsContainer");
-main.appendChild(shipsContainer);
+placeShipsDiv.appendChild(shipsContainer);
 
 // CREATE SHIPS
 let placeShip1 = document.createElement("div");
@@ -316,5 +329,3 @@ function loseScreen() {
 
 generatePlayerBoard();
 generateComputerBoard();
-
-

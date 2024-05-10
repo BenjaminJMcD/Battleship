@@ -1,3 +1,9 @@
+.header {
+    font-size: 70px;
+    text-align: center;
+    background-color:rgb(86, 116, 141);
+}
+
 .gameBoard {
     width: 400px;
     height: 400px;
@@ -12,11 +18,9 @@
 
 .main {
     display: grid;
-    gap: 10%;
-    justify-content: center;
-    margin-top: 100px;
-    margin-left: 100px;
     grid-template-columns: 1fr 1fr;
+    justify-items:center;
+    background-color: steelblue;
 }
 
 .empty {
@@ -32,33 +36,46 @@
     background-color: red;
 }
 
+.placeShipsDiv {
+    border: 5px solid black;
+    width: 400px;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.shiftInstruction {
+    text-align: center;
+    margin-bottom: 12px;
+    font-size: 18px
+}
+
 .shipsContainer {
     width: 402px;
     height: 140px;
     display: flex;
-    gap: 10px;
     flex-wrap: wrap;
 }
 
 .shipDiv {
     display: flex;
     height: 37px;
-    margin-top: 30px;
     margin-left: 10px;
     border: 1px solid black;
 }
 
 .shipsContainerVert {
     width: 410px;
-    gap: 52px;
+    gap: 40px;
+    margin-bottom: 10px;
+    margin-left: 20px;
     display:flex;
-    margin: 0px;
+
 }
 
 .shipDivVert {
     display: flex;
     flex-direction: column;
-
+    align-self:center;
 }
 
 .shipSquare {
@@ -70,7 +87,7 @@
 
 .conclusionText {
     font-size: 30px;
-    margin-left: 70px;
+    text-align: center;
     margin-top: 20px;
     margin-bottom: 10px;
 }
@@ -81,5 +98,5 @@ button {
     font-size: 30px;
     background-color: black;
     color: white;
-    margin-left: 90px;
+    margin-left: 20px;
 }
